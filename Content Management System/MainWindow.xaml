@@ -10,62 +10,61 @@
         Background="Transparent"
         WindowStyle="None">
 
-    <Canvas Width="600" Height="400">
-    <Path 
+    <Canvas Width="800" Height="700">
+        <Path 
             Name="UIPath"
-            Fill="White"
-            Stroke="DarkGray"
+            Fill="#141517"
+            Stroke="#8D919C"
             StrokeThickness="2">
-        <Path.Data>
-            <PathGeometry>
-                <PathFigure StartPoint="50,0">
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure StartPoint="50,0">
                         <ArcSegment
                         Point="0,50"
                         Size="50,50"
                         SweepDirection="Counterclockwise"
                         IsLargeArc="False"/>
                         <LineSegment Point="0,50" />
-                    <LineSegment Point="0,350" />
+                        <LineSegment Point="0,650" />
                         <ArcSegment
-                            Point="50,400"
+                            Point="50,700"
                             Size="50,50"
                             SweepDirection="Counterclockwise"
                             IsLargeArc="False"/>
-                    <LineSegment Point="50,400" />
-                    <LineSegment Point="550,400" />
+                        <LineSegment Point="50,700" />
+                        <LineSegment Point="750,700" />
                         <ArcSegment
-                            Point="600,350"
+                            Point="800,650"
                             Size="50,50"
                             SweepDirection="Counterclockwise"
                             IsLargeArc="False"/>
-                    <LineSegment Point="600,350"/>
-                    <LineSegment Point="600,50"/>
+                        <LineSegment Point="800,650"/>
+                        <LineSegment Point="800,50"/>
                         <ArcSegment
-                            Point="550,0"
+                            Point="750,0"
                             Size="50,50"
                             SweepDirection="Counterclockwise"
                             IsLargeArc="False"/>
-                        <LineSegment Point="550,0"/>
-                    <LineSegment Point="50,0"/>
+                        <LineSegment Point="750,0"/>
+                        <LineSegment Point="50,0"/>
                     </PathFigure>
-            </PathGeometry>
-        </Path.Data>
-    </Path>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
 
-        <StackPanel
-            Margin="10"
-            Width="300"
-            Height="50"
-            Canvas.Left="135"
-            />
 
-        <DockPanel
-            Width="250"
-            Height="280"
-            Canvas.Left="175"
-            Canvas.Top="70"
-            Background="#A4AAAE"
-            />
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Width="800" Height="701">
+            <DockPanel>
+                <Grid Height="120" DockPanel.Dock="Top">
+                    <TextBlock Text="MERCEDES - F1 DRIVERS" Foreground="AntiqueWhite" FontSize="40" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
+                <Frame
+                 x:Name="MainFrame"
+                 DockPanel.Dock="Bottom"
+                 NavigationUIVisibility="Hidden"
+                 Source="Pages/LoginPage.xaml" Height="580" />
 
+            </DockPanel>
+        </Grid>
     </Canvas>
 </Window>
