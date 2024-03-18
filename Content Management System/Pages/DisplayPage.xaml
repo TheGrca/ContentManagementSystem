@@ -73,7 +73,7 @@
                 x:Name="LogOutButton"
                 Width="150"
                 Height="50"
-                Content="LOGOUT"
+                Content="LOGOUT" Click="LogOutButton_Click"
                 />
 
 

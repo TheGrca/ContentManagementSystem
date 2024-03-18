@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Content_Management_System.Pages
 {
     /// <summary>
-    /// Interaction logic for AdminPage.xaml
+    /// Interaction logic for AddDriverPage.xaml
     /// </summary>
-    public partial class AdminPage : Page
+    public partial class AddDriverPage : Page
     {
-        public AdminPage()
+        public AddDriverPage()
         {
             InitializeComponent();
         }

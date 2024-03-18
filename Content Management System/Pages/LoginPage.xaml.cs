@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Content_Management_System.Class;
 
 namespace Content_Management_System.Pages
 {
@@ -31,9 +33,37 @@ namespace Content_Management_System.Pages
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ValidateLoginData())
+            if (ValidateEmptyLoginData())
             {
+                string username = UsernameTextBox.Text;
+                string password = PasswordTextBox.Text;
+                try
+                {
+                    string[] lines = File.ReadAllLines("Users.txt");
 
+                    foreach(string line in lines)
+                    {
+                        string[] parts = line.Split('|');
+                        if (parts.Length == 3)
+                        {
+                            string storedUsername = parts[0];
+                            string storedPassword = parts[1];
+                            UserRole storedRole = (UserRole)Enum.Parse(typeof(UserRole), parts[2]);
+
+                            if(username == storedUsername && password == storedPassword)
+                            {
+                                User user = new User(storedUsername, storedPassword, storedRole);
+                                NavigationService.Navigate(new DisplayPage(storedRole.ToString()));
+                                return;
+                            }
+                        }
+                    }
+                    PasswordErrorLabel.Content = "Invalid username or password";
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
 
         }
@@ -44,16 +74,11 @@ namespace Content_Management_System.Pages
 
             if(messageBoxResult == MessageBoxResult.Yes)
             {
-
+                Application.Current.Shutdown();
             }
-            else
-            {
-               
-            }
-
         }
 
-        private bool ValidateLoginData()
+        private bool ValidateEmptyLoginData()
         {
             bool isValid = true;
 

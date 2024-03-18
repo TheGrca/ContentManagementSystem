@@ -20,9 +20,29 @@ namespace Content_Management_System.Pages
     /// </summary>
     public partial class DisplayPage : Page
     {
-        public DisplayPage()
+        public DisplayPage(string role)
         {
             InitializeComponent();
+            CheckUserRole(role);
+        }
+
+        private void CheckUserRole(string role)
+        {
+            if(role == "Visitor")
+            {
+                AddDriverButton.Visibility = Visibility.Hidden;
+                DeleteDriverButton.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                AddDriverButton.Visibility = Visibility.Visible;
+                DeleteDriverButton.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void LogOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new LoginPage());
         }
     }
 }

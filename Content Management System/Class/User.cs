@@ -12,6 +12,12 @@ namespace Content_Management_System.Class
         private string username {  get; set; }
         private string password { get; set; }
         private UserRole role { get; set; } 
-        
+
+        public User(string username, string password, UserRole role)
+        {
+            this.username = username;
+            this.password = password;
+            this.role = role;
+        }
     }
 }
