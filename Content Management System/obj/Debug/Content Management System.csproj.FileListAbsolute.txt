@@ -14,9 +14,14 @@ C:\Users\Korisnik\Desktop\Content Management System\Content Management System\ob
 C:\Users\Korisnik\Desktop\Content Management System\Content Management System\obj\Debug\Content Management System.csproj.CoreCompileInputs.cache
 C:\Users\Korisnik\Desktop\Content Management System\Content Management System\obj\Debug\Content Management System.exe
 C:\Users\Korisnik\Desktop\Content Management System\Content Management System\obj\Debug\Content Management System.pdb
-C:\Users\Korisnik\Desktop\Content Management System\Content Management System\obj\Debug\Pages\AdminPage.g.cs
 C:\Users\Korisnik\Desktop\Content Management System\Content Management System\obj\Debug\Pages\DisplayPage.g.cs
 C:\Users\Korisnik\Desktop\Content Management System\Content Management System\obj\Debug\Pages\LoginPage.g.cs
-C:\Users\Korisnik\Desktop\Content Management System\Content Management System\obj\Debug\Pages\AdminPage.baml
 C:\Users\Korisnik\Desktop\Content Management System\Content Management System\obj\Debug\Pages\DisplayPage.baml
 C:\Users\Korisnik\Desktop\Content Management System\Content Management System\obj\Debug\Pages\LoginPage.baml
+C:\Users\Korisnik\Desktop\Content Management System\Content Management System\obj\Debug\Pages\AddDriverPage.g.cs
+C:\Users\Korisnik\Desktop\Content Management System\Content Management System\obj\Debug\Pages\AddDriverPage.baml
+C:\Users\Korisnik\Desktop\Content Management System\Content Management System\bin\Debug\FontAwesome5.dll
+C:\Users\Korisnik\Desktop\Content Management System\Content Management System\bin\Debug\FontAwesome5.Net.dll
+C:\Users\Korisnik\Desktop\Content Management System\Content Management System\bin\Debug\FontAwesome5.xml
+C:\Users\Korisnik\Desktop\Content Management System\Content Management System\bin\Debug\FontAwesome5.Net.xml
+C:\Users\Korisnik\Desktop\Content Management System\Content Management System\obj\Debug\Content Management System.csproj.CopyComplete

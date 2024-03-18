@@ -11,8 +11,6 @@
 
     <Grid>
         <Border
-            Canvas.Left="150"
-            Canvas.Top="80"
             CornerRadius="20"
             Background="#8D919C" Margin="168,24,168,70">
             <DockPanel>
@@ -46,6 +44,12 @@
                                 Width="300"
                                 />
                     </StackPanel>
+                    <ToggleButton x:Name="PasswordToggleButton" Background="Transparent" Grid.Row="2" HorizontalAlignment="Right" Margin="0 0 55 90" Height="20" BorderBrush="Transparent" Cursor="Hand" Checked="PasswordToggleButton_Checked" Unchecked="PasswordToggleButton_Unchecked">
+                        <Grid>
+                            <fa5:SvgAwesome x:Name="ToggleButtonIconOff" Icon="Regular_EyeSlash"/>
+                            <fa5:SvgAwesome x:Name="ToggleButtonIconOn" Icon="Regular_Eye" Visibility="Hidden"/>
+                        </Grid>
+                    </ToggleButton>
                     <Button x:Name="LoginButton" Grid.Row="3" Content="LOGIN" Width="175" HorizontalAlignment="Left" Margin="40,10,0,70" Click="LoginButton_Click"/>
                     <Button x:Name="ExitButton" Grid.Row="3" Content="EXIT" Width="175" HorizontalAlignment="Right" Margin="0,10,40,70" Click="ExitButton_Click" ToolTip="Close the application"/>
                 </Grid>

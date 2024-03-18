@@ -25,28 +25,26 @@
 
         <DataGrid
             x:Name="DriversDataGrid"
-            Grid.Row="1"
+            Grid.Row="0"
             Grid.ColumnSpan="3"
-            Grid.RowSpan="3"
+            Grid.RowSpan="4"
             Margin="30,10,30,10" 
             AutoGenerateColumns="False"
             ScrollViewer.CanContentScroll="True" 
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             ScrollViewer.HorizontalScrollBarVisibility="Auto">
             >
-            <DataGrid.Columns>
-                <DataGridTextColumn
-                    Header="Check"
-                    />
-                <DataGridTextColumn
-                    Header="Hyperlink"
-                    />
-                <DataGridTextColumn
-                    Header="Picture"
-                    />
-                <DataGridTextColumn
-                    Header="Date added"
-                    />
+            <DataGrid.Columns >
+                <DataGridCheckBoxColumn Header="Check" Width="Auto"/>
+                <DataGridHyperlinkColumn Header="Hyperlink" Binding="{Binding Name}" Width="*" ContentBinding="{Binding Name}" />
+                <DataGridTemplateColumn Header="Picture" Width="auto" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Picture}" Width="30" Height="30" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Date added" Binding="{Binding Date}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel
@@ -60,7 +58,7 @@
                 Width="150"
                 Height="50"
                 Content="ADD"
-                Margin="10 0 135 0"
+                Margin="10 0 135 0" Click="AddDriverButton_Click"
                 />
             <Button
                 x:Name="DeleteDriverButton"

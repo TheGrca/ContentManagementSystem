@@ -3,29 +3,78 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:fa5="http://schemas.fontawesome.com/icons/"
       xmlns:local="clr-namespace:Content_Management_System.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="580" d:DesignWidth="800"
       Title="AddDriverPage">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <Border CornerRadius="20" Width="650" Height="480" Background="#8D919C">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="6*"/>
-        </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <Button Height="50" Width="200" HorizontalAlignment="Left" Content="Back"/>
-        <TextBlock Grid.ColumnSpan="2" Text="Add a driver" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
+            <Button x:Name="BackButton" Height="30" Width="100" HorizontalAlignment="Left" Content="Back" Margin="10" Click="BackButton_Click"/>
+            <TextBlock Grid.ColumnSpan="2" Text="ADD A DRIVER" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
 
-        <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
-            <TextBox/>
-            <Label/>
-        </StackPanel>
-    </Grid>
+            <ToolBar Grid.Row="1" Grid.ColumnSpan="2" Width="600" Height="30">
+                <ToggleButton x:Name="BoldToggleButton" Margin="40 0 0 0">
+                    <fa5:SvgAwesome Icon="Solid_Bold" Foreground="Black"/>
+                </ToggleButton>
+                <Separator Margin="10 0 10 0"/>
+                <ToggleButton x:Name="ItalicToggleButton">
+                    <fa5:SvgAwesome Icon="Solid_Italic" Foreground="Black"/>
+                </ToggleButton>
+                <Separator Margin="10 0 10 0"/>
+                <ToggleButton x:Name="UnderlineToggleButton">
+                    <fa5:SvgAwesome Icon="Solid_Underline" Foreground="Black"/>
+                </ToggleButton>
+                <Separator Margin="10 0 10 0"/>
+                <ComboBox x:Name="FontFamilyComboBox" Width="150" IsTextSearchCaseSensitive="False" IsTextSearchEnabled="True" SelectionChanged="FontFamilyComboBox_SelectionChanged" />
+                <Separator Margin="10 0 10 0"/>
+                <ComboBox x:Name="FontSizeComboBox" Width="50" IsTextSearchEnabled="True"/>
+                <Separator Margin="10 0 10 0"/>
+                <Rectangle Height="20" Width="20" Margin="0 0 5 0"/>
+                <ComboBox x:Name="FontColorComboBox" Width="100" IsTextSearchCaseSensitive="False" IsTextSearchEnabled="True"/>
+            </ToolBar>
+
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
+                <Label Width="300" Height="30" Content="Driver Number:"/>
+                <TextBox x:Name="DriverNumberTextBox" Width="300" Height="30" VerticalContentAlignment="Center"/>
+                <Label x:Name="DriverNumberErrorLabel" Width="300" Height="30"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="3" Grid.ColumnSpan="2">
+                <Label Width="300" Height="30" Content="Driver Name:"/>
+                <RichTextBox x:Name="DriverNameRichTextBox" Width="300" Height="30" VerticalContentAlignment="Center" SelectionChanged="DriverNameRichTextBox_SelectionChanged_1"/>
+                <Label x:Name="DriverNameErrorLabel" Width="300" Height="30"/>
+            </StackPanel>
+
+            <Rectangle Grid.Row="4" Grid.Column="2" Width="50" Height="50" HorizontalAlignment="Left" Margin="60 0 0 20">
+                <Rectangle.Fill>
+                    <ImageBrush x:Name="PreviewImageBrush"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <StackPanel Grid.Row="4" Grid.ColumnSpan="2">
+                <Label Width="82" Height="30" Content="Driver Picture:"/>
+                <Button Width="108" Height="30" Content="Select Picture" Click="SelectPictureButton_Click" />
+                <Label x:Name="DriverPictureErrorLabel" Width="300" Height="30"/>
+            </StackPanel>
+
+            <Button x:Name="AddDriverButton" Grid.Row="5" Grid.ColumnSpan="2" Height="40" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Add driver" Click="AddDriverButton_Click"/>
+
+        </Grid>
+    </Border>
 </Page>

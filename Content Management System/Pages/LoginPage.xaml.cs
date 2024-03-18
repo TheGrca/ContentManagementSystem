@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Content_Management_System.Class;
+using FontAwesome5;
 
 namespace Content_Management_System.Pages
 {
@@ -29,6 +31,9 @@ namespace Content_Management_System.Pages
             UsernameTextBox.Foreground = Brushes.LightSlateGray;
             PasswordTextBox.Text = "Password";
             PasswordTextBox.Foreground = Brushes.LightSlateGray;
+
+
+            this.DataContext = this;
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -124,6 +129,7 @@ namespace Content_Management_System.Pages
             {
                 PasswordTextBox.Text = string.Empty;
                 PasswordTextBox.Foreground = Brushes.Black;
+                
             }
         }
 
@@ -144,5 +150,19 @@ namespace Content_Management_System.Pages
                 PasswordTextBox.Foreground = Brushes.LightSlateGray;
             }
         }
+
+        private void PasswordToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            ToggleButtonIconOff.Visibility = Visibility.Hidden;
+            ToggleButtonIconOn.Visibility = Visibility.Visible;
+
+        }
+
+        private void PasswordToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ToggleButtonIconOff.Visibility = Visibility.Visible;
+            ToggleButtonIconOn.Visibility = Visibility.Hidden;
+        }
+
     }
 }

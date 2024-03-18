@@ -10,6 +10,8 @@
 //------------------------------------------------------------------------------
 
 using Content_Management_System;
+using FontAwesome5;
+using FontAwesome5.Converters;
 using System;
 using System.Diagnostics;
 using System.Windows;
