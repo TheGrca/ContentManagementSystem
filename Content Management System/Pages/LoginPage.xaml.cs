@@ -24,6 +24,7 @@ namespace Content_Management_System.Pages
     /// </summary>
     public partial class LoginPage : Page
     {
+        bool isPasswordHidden = true;
         public LoginPage()
         {
             InitializeComponent();
@@ -31,7 +32,7 @@ namespace Content_Management_System.Pages
             UsernameTextBox.Foreground = Brushes.LightSlateGray;
             PasswordTextBox.Text = "Password";
             PasswordTextBox.Foreground = Brushes.LightSlateGray;
-
+            
 
             this.DataContext = this;
         }
@@ -155,14 +156,31 @@ namespace Content_Management_System.Pages
         {
             ToggleButtonIconOff.Visibility = Visibility.Hidden;
             ToggleButtonIconOn.Visibility = Visibility.Visible;
-
+            isPasswordHidden = false;
         }
 
         private void PasswordToggleButton_Unchecked(object sender, RoutedEventArgs e)
         {
             ToggleButtonIconOff.Visibility = Visibility.Visible;
             ToggleButtonIconOn.Visibility = Visibility.Hidden;
+            isPasswordHidden = true;
         }
 
+        private void PasswordTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string password = PasswordTextBox.Text;
+            if (!PasswordTextBox.Text.Trim().Equals("Password") && isPasswordHidden)
+            {
+                int passwordCharacterCount = PasswordTextBox.Text.Length;
+                string passwordText = new string('*', passwordCharacterCount);
+                PasswordTextBox.Text = passwordText;
+                PasswordTextBox.CaretIndex = passwordCharacterCount;
+            }
+            else
+            {
+                PasswordTextBox.Text = password;
+            }
+
+        }
     }
 }

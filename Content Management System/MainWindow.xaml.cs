@@ -24,19 +24,9 @@ namespace Content_Management_System
 
     public partial class MainWindow : Window
     {
-
-        private DataIO serializer = new DataIO();
-        public ObservableCollection<Driver> Drivers;
-
         public MainWindow()
         {
             InitializeComponent();
-
-            Drivers = serializer.DeSerializeObject<ObservableCollection<Driver>>("Drivers.xml");
-            if (Drivers == null)
-            {
-                Drivers = new ObservableCollection<Driver>();
-            }
         }
     }
 }

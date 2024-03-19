@@ -33,18 +33,17 @@
             ScrollViewer.CanContentScroll="True" 
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             ScrollViewer.HorizontalScrollBarVisibility="Auto">
-            >
             <DataGrid.Columns >
                 <DataGridCheckBoxColumn Header="Check" Width="Auto"/>
                 <DataGridHyperlinkColumn Header="Hyperlink" Binding="{Binding Name}" Width="*" ContentBinding="{Binding Name}" />
-                <DataGridTemplateColumn Header="Picture" Width="auto" >
+                <DataGridTemplateColumn IsReadOnly="True" Header="Picture" Width="auto" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Source="{Binding Picture}" Width="30" Height="30" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Date added" Binding="{Binding Date}" Width="*" />
+                <DataGridTextColumn IsReadOnly="True" Header="Date added" Binding="{Binding Date}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel
@@ -59,6 +58,11 @@
                 Height="50"
                 Content="ADD"
                 Margin="10 0 135 0" Click="AddDriverButton_Click"
+                Style="{StaticResource MyButton}"
+                Background="white"
+                Foreground="Black"
+                ToolTip="Navigate to the 'Add Driver' page."
+                Cursor="Hand"
                 />
             <Button
                 x:Name="DeleteDriverButton"
@@ -66,12 +70,22 @@
                 Height="50"
                 Content="DELETE"
                 Margin="0 0 135 0"
+                Style="{StaticResource MyButton}"
+                Background="white"
+                Foreground="Black"
+                ToolTip="Delete the selected drivers."
+                Cursor="Hand"
                 />
             <Button
                 x:Name="LogOutButton"
                 Width="150"
                 Height="50"
                 Content="LOGOUT" Click="LogOutButton_Click"
+                Style="{StaticResource MyButton}"
+                Background="white"
+                Foreground="Black"
+                ToolTip="Logout of the application."
+                Cursor="Hand"
                 />
 
 
