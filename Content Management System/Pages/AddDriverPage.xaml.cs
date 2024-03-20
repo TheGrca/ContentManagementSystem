@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Xml.Linq;
 using Microsoft.Win32;
 using Content_Management_System.Class;
+using System.Collections.ObjectModel;
 
 namespace Content_Management_System.Pages
 {
@@ -24,7 +25,8 @@ namespace Content_Management_System.Pages
     /// </summary>
     public partial class AddDriverPage : Page
     {
-        string selectedImagePath;
+        string selectedImageName;
+        DataIO serializer = new DataIO();
         public AddDriverPage()
         {
             InitializeComponent();
@@ -119,10 +121,10 @@ namespace Content_Management_System.Pages
             openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
-                selectedImagePath = openFileDialog.FileName;
+                selectedImageName= System.IO.Path.GetFileName(openFileDialog.FileName);
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
-                bitmap.UriSource = new Uri(selectedImagePath);
+                bitmap.UriSource = new Uri(openFileDialog.FileName);
                 bitmap.DecodePixelWidth = 50;
                 bitmap.DecodePixelHeight = 50;
                 bitmap.EndInit();
@@ -136,25 +138,25 @@ namespace Content_Management_System.Pages
             {
                 string driverNumber = DriverNumberTextBox.Text.Trim();
                 string driverName = new TextRange(DriverNameRichTextBox.Document.ContentStart, DriverNameRichTextBox.Document.ContentEnd).Text.Trim();
-                string picturePath = selectedImagePath;
+                string picturePath = selectedImageName;
 
                 // Generate a unique filename for RTF document
                 string rtfFileName = $"Driver_{driverNumber}_{DateTime.Now:yyyyMMddHHmmss}.rtf";
-                string rtfFilePath = System.IO.Path.GetFileName(rtfFileName);
 
                 try
                 {
                     // Create and save RTF document
-                    using (FileStream fileStream = new FileStream(rtfFilePath, FileMode.Create))
+                    using (FileStream fileStream = new FileStream(rtfFileName, FileMode.Create))
                     {
                         TextRange textRange = new TextRange(DriverNameRichTextBox.Document.ContentStart, DriverNameRichTextBox.Document.ContentEnd);
                         textRange.Save(fileStream, DataFormats.Rtf);
                     }
 
-                    Driver driver = new Driver(int.Parse(driverNumber), driverName, picturePath, rtfFilePath, DateTime.Now);
+                    Driver driver = new Driver(int.Parse(driverNumber), driverName, picturePath, rtfFileName, DateTime.Now);
                     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
                     // Save driver information to XML file
-                    SaveDriverToXml(driverNumber, driverName, picturePath, rtfFilePath);
+                    mainWindow.Drivers.Add(driver);
+                    serializer.SerializeObject<ObservableCollection<Driver>>(mainWindow.Drivers, "Drivers.xml");
                     MessageBox.Show("Driver added successfully."); //TO DO: Toaster notifikacija
                     //this.NavigationService.Navigate(new Uri("Pages/DisplayPage.xaml", UriKind.RelativeOrAbsolute));
                 }
@@ -164,36 +166,6 @@ namespace Content_Management_System.Pages
                 }
             }
         }
-
-        private void SaveDriverToXml(string driverNumber, string driverName, string picturePath, string rtfFilePath)
-        {
-            string xmlFilePath = "Drivers.xml";
-            if (!File.Exists(xmlFilePath))
-            {
-                // Create a new XML document if it doesn't exist
-                XDocument xmlDoc = new XDocument(new XElement("Drivers"));
-                xmlDoc.Save(xmlFilePath);
-            }
-
-            // Load existing XML document
-            XDocument doc = XDocument.Load(xmlFilePath);
-
-            // Add new driver element
-            XElement newDriver = new XElement("Driver",
-                new XElement("Number", driverNumber),
-                new XElement("Name", driverName),
-                new XElement("Picture", picturePath),
-                new XElement("RtfPath", rtfFilePath),
-                new XElement("Date", DateTime.Now)
-            );
-
-            // Add the new driver to the XML document
-            doc.Element("Drivers").Add(newDriver);
-
-            // Save the updated XML document
-            doc.Save(xmlFilePath);
-        }
-
 
         private void FontFamilyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

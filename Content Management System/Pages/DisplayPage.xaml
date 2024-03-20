@@ -28,13 +28,14 @@
             Grid.Row="0"
             Grid.ColumnSpan="3"
             Grid.RowSpan="4"
-            Margin="30,10,30,10" 
+            Margin="30,10,30,10"
+            ItemsSource="{Binding Drivers}"
             AutoGenerateColumns="False"
             ScrollViewer.CanContentScroll="True" 
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <DataGrid.Columns >
-                <DataGridCheckBoxColumn Header="Check" Width="Auto"/>
+                <DataGridCheckBoxColumn Header="Check" Width="Auto" Binding="{Binding IsSelected}"/>
                 <DataGridHyperlinkColumn Header="Hyperlink" Binding="{Binding Name}" Width="*" ContentBinding="{Binding Name}" />
                 <DataGridTemplateColumn IsReadOnly="True" Header="Picture" Width="auto" >
                     <DataGridTemplateColumn.CellTemplate>
@@ -74,7 +75,7 @@
                 Background="white"
                 Foreground="Black"
                 ToolTip="Delete the selected drivers."
-                Cursor="Hand"
+                Cursor="Hand" Click="DeleteDriverButton_Click"
                 />
             <Button
                 x:Name="LogOutButton"

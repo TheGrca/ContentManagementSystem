@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,14 +24,27 @@ namespace Content_Management_System.Pages
     /// <summary>
     /// Interaction logic for DisplayPage.xaml
     /// </summary>
-    public partial class DisplayPage : Page
+    public partial class DisplayPage : Page, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ObservableCollection<Driver> Drivers { get; set; }
+        MainWindow mainWindow;
+        
         public DisplayPage(string role)
         {
             InitializeComponent();
             CheckUserRole(role);
+            if(Drivers == null)
+                DeleteDriverButton.IsEnabled = false;
+            else
+                DeleteDriverButton.IsEnabled = true;
+            
+            
+            mainWindow = (MainWindow)Application.Current.MainWindow;
+            Drivers = mainWindow.Drivers;
+
             DataContext = this;
-            LoadData();
         }
 
         private void CheckUserRole(string role)
@@ -57,37 +71,27 @@ namespace Content_Management_System.Pages
             NavigationService.Navigate(new AddDriverPage());
         }
 
-        private void LoadData()
+        protected virtual void OnPropertyChanged(string propertyName)
         {
-            // Deserialize XML file into a List<Driver>
-            List<Driver> drivers = DeserializeDrivers("Drivers.xml");
-
-            // Set the ItemsSource of the DataGrid to the list of drivers
-            DriversDataGrid.Items.Clear();
-            DriversDataGrid.ItemsSource = drivers;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private List<Driver> DeserializeDrivers(string fileName)
+        private void DeleteDriverButton_Click(object sender, RoutedEventArgs e)
         {
-            List<Driver> drivers = new List<Driver>();
-            try
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Driver>));
-                using (FileStream fileStream = new FileStream(fileName, FileMode.Open))
+                foreach(Driver driver in Drivers)
                 {
-                    drivers = (List<Driver>)serializer.Deserialize(fileStream);
+                    if(driver.IsSelected == true)
+                    {
+                        Drivers.Remove(driver);
+                    }
                 }
-            }
-            catch (FileNotFoundException ex)
-            {
-                MessageBox.Show("XML file not found.");
-                
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error while deserializing XML: " + ex.Message);
-            }
-            return drivers;
+                /*  TO DO: Remove Drivers from XML file
+                DataIO dataIO = new DataIO();
+                dataIO.SerializeObject(driversToKeep, "drivers.xml");
+
+                // Update the Drivers list in your application
+                Drivers = driversToKeep;
+                */
         }
     }
 }

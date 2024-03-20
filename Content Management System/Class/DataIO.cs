@@ -30,7 +30,7 @@ namespace Content_Management_System.Class
             }
             catch (Exception ex)
             {
-                //Log exception here
+                Console.WriteLine(ex.ToString());
             }
         }
 
@@ -64,7 +64,7 @@ namespace Content_Management_System.Class
             }
             catch (Exception ex)
             {
-                //Log exception here
+                Console.WriteLine(ex.ToString());
             }
 
             return objectOut;

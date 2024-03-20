@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ArrayOfDriver xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Driver>
+    <IsSelected>false</IsSelected>
+    <Number>12</Number>
+    <Name>Hamilton</Name>
+    <Picture>C:\Users\Korisnik\Desktop\Content Management System\Content Management System\bin\Debug\Hamilton.jpg</Picture>
+    <RtfPath>Driver_12_20240320184038.rtf</RtfPath>
+    <Date>2024-03-20T18:40:38.1107997+01:00</Date>
+  </Driver>
+</ArrayOfDriver>
