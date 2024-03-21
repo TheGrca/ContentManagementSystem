@@ -31,6 +31,7 @@ namespace Content_Management_System.Pages
         {
             InitializeComponent();
             CharacterCounterLabel.Content = "0";
+            FontSizeComboBox.SelectedIndex = 2;
 
             FontFamilyComboBox.ItemsSource = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
            
@@ -46,30 +47,6 @@ namespace Content_Management_System.Pages
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
-        }
-
-        private void DriverNameRichTextBox_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            object fontWeight = DriverNameRichTextBox.Selection.GetPropertyValue(Inline.FontWeightProperty);
-            BoldToggleButton.IsChecked = (fontWeight != DependencyProperty.UnsetValue) && (fontWeight.Equals(FontWeights.Bold));
-
-            object fontItalic = DriverNameRichTextBox.Selection.GetPropertyValue(Inline.FontStyleProperty);
-            ItalicToggleButton.IsChecked = ((fontItalic != DependencyProperty.UnsetValue)) && (fontItalic.Equals(FontStyles.Italic));
-
-            object fontUnderline = DriverNameRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty);
-            UnderlineToggleButton.IsChecked = (fontUnderline != DependencyProperty.UnsetValue) && (fontUnderline.Equals(TextDecorations.Underline));
-
-            object fontFamily = DriverNameRichTextBox.Selection.GetPropertyValue(Inline.FontFamilyProperty);
-            FontFamilyComboBox.SelectedItem = fontFamily;
-
-            object fontSize = DriverNameRichTextBox.Selection.GetPropertyValue(Inline.FontSizeProperty);
-            FontSizeComboBox.SelectedItem = fontSize;
-
-            object fontColor = DriverNameRichTextBox.Selection.GetPropertyValue(Inline.ForegroundProperty);
-            FontColorComboBox.SelectedItem = fontColor;
-
-            int charCount = new TextRange(DriverNameRichTextBox.Document.ContentStart, DriverNameRichTextBox.Document.ContentEnd).Text.Length;
-            CharacterCounterLabel.Content = (charCount-2).ToString();
         }
 
         private bool ValidateEmptyFormData()
@@ -91,13 +68,13 @@ namespace Content_Management_System.Pages
             if (CharacterCounterLabel.Content.ToString() == "0")
             {
                 isValid = false;
-                DriverNameErrorLabel.Content = "Name field cannot be empty!";
-                DriverNameRichTextBox.BorderBrush = Brushes.Red;
+                DescriptionRichTextBoxError.Content = "Description field cannot be empty!";
+                DriverDescriptionRichTextBox.BorderBrush = Brushes.Red;
             }
             else
             {
-                DriverNameErrorLabel.Content = string.Empty;
-                DriverNameRichTextBox.BorderBrush = Brushes.Transparent;
+                DescriptionRichTextBoxError.Content = string.Empty;
+                DriverDescriptionRichTextBox.BorderBrush = Brushes.Transparent;
             }
 
             if(PreviewPictureBrush.ImageSource == null)
@@ -109,7 +86,19 @@ namespace Content_Management_System.Pages
             else
             {
                 DriverPictureErrorLabel.Content = string.Empty;
-                DriverNameRichTextBox.BorderBrush = Brushes.Transparent;
+                SelectPictureButton.BorderBrush = Brushes.Transparent;
+            }
+
+            if (DriverNameTextBox.Text.Trim().Equals(string.Empty))
+            {
+                isValid = false;
+                DriverNameErrorLabel.Content = "Name field cannot be empty!";
+                DriverNameTextBox.BorderBrush = Brushes.Red;
+            }
+            else
+            {
+                DriverNameErrorLabel.Content = string.Empty;
+                DriverNameTextBox.BorderBrush = Brushes.Transparent;
             }
 
             return isValid;
@@ -137,7 +126,8 @@ namespace Content_Management_System.Pages
             if (ValidateEmptyFormData())
             {
                 string driverNumber = DriverNumberTextBox.Text.Trim();
-                string driverName = new TextRange(DriverNameRichTextBox.Document.ContentStart, DriverNameRichTextBox.Document.ContentEnd).Text.Trim();
+                string driverName = DriverNameTextBox.Text.Trim();
+                string driverDescription = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd).Text.Trim();
                 string picturePath = selectedImageName;
 
                 // Generate a unique filename for RTF document
@@ -148,17 +138,17 @@ namespace Content_Management_System.Pages
                     // Create and save RTF document
                     using (FileStream fileStream = new FileStream(rtfFileName, FileMode.Create))
                     {
-                        TextRange textRange = new TextRange(DriverNameRichTextBox.Document.ContentStart, DriverNameRichTextBox.Document.ContentEnd);
+                        TextRange textRange = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd);
                         textRange.Save(fileStream, DataFormats.Rtf);
                     }
 
-                    Driver driver = new Driver(int.Parse(driverNumber), driverName, picturePath, rtfFileName, DateTime.Now);
+                    Driver driver = new Driver(int.Parse(driverNumber), driverName, driverDescription ,picturePath, rtfFileName, DateTime.Now);
                     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
                     // Save driver information to XML file
                     mainWindow.Drivers.Add(driver);
                     serializer.SerializeObject<ObservableCollection<Driver>>(mainWindow.Drivers, "Drivers.xml");
                     MessageBox.Show("Driver added successfully."); //TO DO: Toaster notifikacija
-                    //this.NavigationService.Navigate(new Uri("Pages/DisplayPage.xaml", UriKind.RelativeOrAbsolute));
+                    NavigationService.GoBack();
                 }
                 catch (Exception ex)
                 {
@@ -169,9 +159,9 @@ namespace Content_Management_System.Pages
 
         private void FontFamilyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (FontFamilyComboBox.SelectedItem != null && !DriverNameRichTextBox.Selection.IsEmpty)
+            if (FontFamilyComboBox.SelectedItem != null && !DriverDescriptionRichTextBox.Selection.IsEmpty)
             {
-                DriverNameRichTextBox.Selection.ApplyPropertyValue(Inline.FontFamilyProperty, FontFamilyComboBox.SelectedItem);
+                DriverDescriptionRichTextBox.Selection.ApplyPropertyValue(Inline.FontFamilyProperty, FontFamilyComboBox.SelectedItem);
             }
         }
 
@@ -184,19 +174,45 @@ namespace Content_Management_System.Pages
                 ColorPreviewRectangle.Fill = new SolidColorBrush(color);
             }
 
-            if (FontColorComboBox.SelectedItem != null && !DriverNameRichTextBox.Selection.IsEmpty)
+            if (FontColorComboBox.SelectedItem != null && !DriverDescriptionRichTextBox.Selection.IsEmpty)
             {
                 Color color = (Color)ColorConverter.ConvertFromString(selectedColor);
-                DriverNameRichTextBox.Selection.ApplyPropertyValue(Inline.ForegroundProperty, new SolidColorBrush(color));
+                DriverDescriptionRichTextBox.Selection.ApplyPropertyValue(Inline.ForegroundProperty, new SolidColorBrush(color));
             }
         }
 
         private void FontSizeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //TO DO: Try catch
             if (double.TryParse(FontSizeComboBox.SelectedItem.ToString(), out double fontSize))
             {
-                DriverNameRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, fontSize);
+                DriverDescriptionRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, fontSize);
             }
+        }
+
+        private void DriverDescriptionRichTextBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            object fontWeight = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.FontWeightProperty);
+            BoldToggleButton.IsChecked = (fontWeight != DependencyProperty.UnsetValue) && (fontWeight.Equals(FontWeights.Bold));
+
+            object fontItalic = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.FontStyleProperty);
+            ItalicToggleButton.IsChecked = ((fontItalic != DependencyProperty.UnsetValue)) && (fontItalic.Equals(FontStyles.Italic));
+
+            object fontUnderline = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty);
+            UnderlineToggleButton.IsChecked = (fontUnderline != DependencyProperty.UnsetValue) && (fontUnderline.Equals(TextDecorations.Underline));
+
+            object fontFamily = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.FontFamilyProperty);
+            FontFamilyComboBox.SelectedItem = fontFamily;
+
+            object fontSize = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.FontSizeProperty);
+            FontSizeComboBox.SelectedItem = fontSize;
+
+            object fontColor = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.ForegroundProperty);
+            FontColorComboBox.SelectedItem = fontColor;
+
+            int charCount = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd).Text.Length;
+            CharacterCounterLabel.Content = (charCount - 2).ToString();
+
         }
     }
 }

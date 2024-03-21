@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Korisnik\Desktop\Content Management System\Content Management System\App.xaml
-4937906096
+51826210485
 8-889547177
-11-1602255315
+13946925270
 15-933112576
-MainWindow.xaml;Pages\AddDriverPage.xaml;Pages\DisplayPage.xaml;Pages\LoginPage.xaml;
+MainWindow.xaml;Pages\AddDriverPage.xaml;Pages\DisplayPage.xaml;Pages\DriverDetailsPage.xaml;Pages\LoginPage.xaml;
 
-False
+True
 

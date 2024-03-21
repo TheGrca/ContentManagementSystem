@@ -28,6 +28,7 @@ namespace Content_Management_System.Class
         }
         public int Number {  get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public string Picture { get; set; }
         public string RtfPath { get; set; }
         public DateTime Date { get; set; }
@@ -37,10 +38,11 @@ namespace Content_Management_System.Class
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public Driver(int number, string name, string picture, string RtfPath, DateTime Date)
+        public Driver(int number, string name, string description ,string picture, string RtfPath, DateTime Date)
         {
             this.Number = number;
             this.Name = name;  
+            this.Description = description;
             this.Picture = picture;
             this.RtfPath = RtfPath;
             this.Date = Date;
