@@ -93,5 +93,14 @@ namespace Content_Management_System.Pages
                 Drivers = driversToKeep;
                 */
         }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedDriver = (sender as Hyperlink).DataContext as Driver;
+            if(selectedDriver != null)
+            {
+                NavigationService.Navigate(new DriverDetailsPage(selectedDriver));
+            }
+        }
     }
 }

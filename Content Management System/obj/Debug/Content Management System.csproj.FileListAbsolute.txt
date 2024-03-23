@@ -56,3 +56,4 @@ C:\Users\pr144-2021\Desktop\ContentManagementSystem-master\Content Management Sy
 C:\Users\pr144-2021\Desktop\ContentManagementSystem-master\Content Management System\obj\Debug\Content Management System.pdb
 C:\Users\pr144-2021\Desktop\ContentManagementSystem-master\Content Management System\obj\Debug\Pages\DriverDetailsPage.g.cs
 C:\Users\pr144-2021\Desktop\ContentManagementSystem-master\Content Management System\obj\Debug\Pages\DriverDetailsPage.baml
+C:\Users\Korisnik\Desktop\Content Management System\Content Management System\obj\Debug\Pages\DriverDetailsPage.g.cs

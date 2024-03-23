@@ -9,8 +9,28 @@
       Title="DriverDetailsPage">
 
     <Grid Height="500" Width="700" Background="#8D919C">
-        <Image Height="200" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30"/>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="BackButton" Content="BACK" Height="30" Width="100" Cursor="Hand" HorizontalAlignment="Left" Margin="20 5 0 0" Style="{StaticResource MyButton}" ToolTip="Return to the previous page." Click="BackButton_Click"/>
+        <TextBlock Text="DRIVER DETAILS" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="SemiBold"/>
+        <Image Height="200" Width="200" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center" Source="{Binding Picture}"/>
+        <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="0 0 0 100" Height="50" Orientation="Horizontal">
+            <TextBlock FontSize="20"  Width="200" Text="{Binding Name}"/>
+            <TextBlock FontSize="20"  HorizontalAlignment="Right" VerticalAlignment="Center" Width="30" Text="{Binding Number}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Bottom" Height="30" Margin="0 0 0 30">
+            <TextBlock Text="Driver Date Added:" FontSize="20"/>
+            <TextBlock  Text="{Binding Date}" FontSize="20"/>
+        </StackPanel>
+        <Label Content="DESCRIPTION:" Grid.Column="1" Margin="20,83,-10,0" Grid.RowSpan="2" FontSize="20"/>
+        <RichTextBox x:Name="DriverDescriptionRichTextBox" Grid.Column="1" Grid.Row="1" Margin="20 40 20 20" IsReadOnly="True"/>
+
 
     </Grid>
 </Page>

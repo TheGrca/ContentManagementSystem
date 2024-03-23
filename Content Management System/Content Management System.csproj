@@ -88,6 +88,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\EditDriverPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -102,6 +106,9 @@
     </Compile>
     <Compile Include="Pages\DriverDetailsPage.xaml.cs">
       <DependentUpon>DriverDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EditDriverPage.xaml.cs">
+      <DependentUpon>EditDriverPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>

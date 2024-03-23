@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\pr144-2021\Desktop\ContentManagementSystem-master\Content Management System\obj\Debug\
+C:\Users\Korisnik\Desktop\Content Management System\Content Management System\obj\Debug\
 Content_Management_System
 none
 false
 DEBUG;TRACE
-C:\Users\pr144-2021\Desktop\ContentManagementSystem-master\Content Management System\App.xaml
-51826210485
+C:\Users\Korisnik\Desktop\Content Management System\Content Management System\App.xaml
+6720979320
 8-889547177
-13946925270
-15735113698
-MainWindow.xaml;Pages\AddDriverPage.xaml;Pages\DisplayPage.xaml;Pages\DriverDetailsPage.xaml;Pages\LoginPage.xaml;
+14-513786053
+15-933112576
+MainWindow.xaml;Pages\AddDriverPage.xaml;Pages\DisplayPage.xaml;Pages\DriverDetailsPage.xaml;Pages\EditDriverPage.xaml;Pages\LoginPage.xaml;
 
 True
 
