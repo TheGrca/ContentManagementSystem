@@ -3,8 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Content_Management_System.Pages" xmlns:fa5="http://schemas.fontawesome.com/icons/"
-      mc:Ignorable="d" 
+      xmlns:fa5="http://schemas.fontawesome.com/icons/"
+      xmlns:local="clr-namespace:Content_Management_System.Pages"
+      mc:Ignorable="d"
       d:DesignHeight="580" d:DesignWidth="800"
       Title="EditDriverPage">
     <Border CornerRadius="20" Width="650" Height="480" Background="#8D919C">
@@ -26,15 +27,15 @@
 
                 <ToolBar Grid.Row="1" Grid.ColumnSpan="2" Width="630" Height="30" VerticalAlignment="Center">
                     <ToggleButton x:Name="BoldToggleButton" Margin="40 0 0 0" Command="EditingCommands.ToggleBold">
-                        <fa5:SvgAwesome Icon="Solid_Bold" Foreground="Black"/>
+                        <fa5:SvgAwesome Icon="Solid_Bold" Foreground="Black" Height="20" Width="25"/>
                     </ToggleButton>
                     <Separator Margin="10 0 10 0"/>
                     <ToggleButton x:Name="ItalicToggleButton" Command="EditingCommands.ToggleItalic">
-                        <fa5:SvgAwesome Icon="Solid_Italic" Foreground="Black"/>
+                    <fa5:SvgAwesome Icon="Solid_Italic" Foreground="Black" Height="20" Width="25"/>
                     </ToggleButton>
                     <Separator Margin="10 0 10 0"/>
                     <ToggleButton x:Name="UnderlineToggleButton" Command="EditingCommands.ToggleUnderline">
-                        <fa5:SvgAwesome Icon="Solid_Underline" Foreground="Black"/>
+                    <fa5:SvgAwesome Icon="Solid_Underline" Foreground="Black" Height="20" Width="25"/>
                     </ToggleButton>
                     <Separator Margin="10 0 10 0"/>
                     <ComboBox x:Name="FontFamilyComboBox" Width="150" IsTextSearchCaseSensitive="False" IsTextSearchEnabled="True" SelectionChanged="FontFamilyComboBox_SelectionChanged" />
@@ -46,39 +47,39 @@
                 </ToolBar>
 
                 <StackPanel Grid.Row="2" >
-                    <Label Width="300" Height="30" Content="Driver Name:" FontSize="15" FontWeight="SemiBold"/>
-                    <TextBox x:Name="DriverNameTextBox" Width="300" Height="30" VerticalContentAlignment="Center"/>
+                    <Label Width="300" Height="30" Content="DRIVER NAME:" FontSize="15" FontWeight="SemiBold"/>
+                    <TextBox x:Name="DriverNameTextBox" Width="300" Height="30" VerticalContentAlignment="Center" Text="{Binding Name}"/>
                     <StackPanel Orientation="Horizontal" Width="300">
                         <Label x:Name="DriverNameErrorLabel" Width="250" Height="30" VerticalAlignment="Top" Foreground="red" />
                     </StackPanel>
                 </StackPanel>
 
                 <StackPanel Margin="0 100 0 0" Grid.Row="2">
-                    <Label Width="300" Height="30" Content="Driver Number:" FontSize="15" FontWeight="SemiBold" Margin="0 0 0 5"/>
-                    <TextBox x:Name="DriverNumberTextBox" Width="300" Height="30" VerticalContentAlignment="Center"/>
+                    <Label Width="300" Height="30" Content="DRIVER NUMBER:" FontSize="15" FontWeight="SemiBold" Margin="0 0 0 5"/>
+                    <TextBox x:Name="DriverNumberTextBox" Width="300" Height="30" VerticalContentAlignment="Center" Text="{Binding Number}"/>
                     <Label x:Name="DriverNumberErrorLabel" Width="300" Height="30" Foreground="red"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0 200 0 0">
 
                     <StackPanel Grid.Row="2"  Width="221">
-                        <Label Width="130" Height="30" Content="Driver Picture:" HorizontalAlignment="Left" FontSize="15" FontWeight="SemiBold" Margin="15 0 0 0"/>
+                        <Label Width="130" Height="30" Content="DRIVER PICTURE:" HorizontalAlignment="Left" FontSize="15" FontWeight="SemiBold" Margin="15 0 0 0"/>
                         <Button x:Name="SelectPictureButton" Width="150" Height="40" Content="SELECT PICTURE" Cursor="Hand" Click="SelectPictureButton_Click" Style="{StaticResource MyButton}" ToolTip="Select a picture to upload." Margin="0 5 40 0"/>
                         <Label x:Name="DriverPictureErrorLabel" Width="209" Height="30" Margin="10 0 0 0" Foreground="red"/>
                     </StackPanel>
-                    <Rectangle  Width="80" Height="80" Margin="0 0 100 0">
+                    <Rectangle  Width="80" Height="80" Margin="0 0 100 100">
                         <Rectangle.Fill>
                             <ImageBrush x:Name="PreviewPictureBrush"/>
                         </Rectangle.Fill>
                     </Rectangle>
                 </StackPanel>
 
-                <Label Content="Driver description:" Grid.Row="2" Grid.Column="1" FontSize="15" FontWeight="SemiBold" Margin="5 0 0 0"/>
-                <RichTextBox x:Name="DriverDescriptionRichTextBox" Grid.Column="1" Grid.Row="2" Margin="10 30 10 40" SelectionChanged="DriverDescriptionRichTextBox_SelectionChanged"/>
+                <Label Content="DRIVER DESCRIPTION:" Grid.Row="2" Grid.Column="1" FontSize="15" FontWeight="SemiBold" Margin="5 0 0 0"/>
+                <RichTextBox x:Name="DriverDescriptionRichTextBox" Grid.Column="1" Grid.Row="2" Margin="10,30,10,42" SelectionChanged="DriverDescriptionRichTextBox_SelectionChanged"/>
                 <Label x:Name="DescriptionRichTextBoxError" Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" Height="30" Width="250" Margin="15 0 0 7" HorizontalAlignment="Left" Foreground="red"/>
-                <Label x:Name="CharacterCounterLabel" Width="50" Height="30" Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0 0 15 7"/>
+                <Label x:Name="CharacterCounterLabel" Width="50" Height="30" Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0 0 15 7" FontSize="15"/>
 
-                <Button x:Name="AddDriverButton" Grid.Row="5" Grid.ColumnSpan="2" Cursor="Hand" Height="50" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Content="EDIT DRIVER" Click="AddDriverButton_Click" Style="{StaticResource MyButton}" ToolTip="Add the driver to Mercedes F1 team."/>
+                <Button x:Name="EditDriverButton" Grid.Row="5" Grid.ColumnSpan="2" Cursor="Hand" Height="50" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Content="EDIT DRIVER" Click="EditDriverButton_Click" Style="{StaticResource MyButton}" ToolTip="Add the driver to Mercedes F1 team."/>
 
             </Grid>
         </Border>

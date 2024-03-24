@@ -38,19 +38,13 @@
                     </StackPanel>
                     <StackPanel Grid.Row="2" Height="70" Width="350" Margin="0 0 0 50">
                         <TextBox x:Name="PasswordTextBox" Width="300" Height="30" VerticalContentAlignment="Center" GotFocus="PasswordTextBox_GotFocus" LostFocus="PasswordTextBox_LostFocus" Grid.Column="1"/>
-                            <Label
+                        <Label
                                 x:Name="PasswordErrorLabel"
                                 Content="" 
                                 Foreground="Red"
                                 Width="300"
                                 />
                     </StackPanel>
-                    <ToggleButton x:Name="PasswordToggleButton" Background="Transparent" Grid.Row="2" HorizontalAlignment="Right" Margin="0 0 55 90" Height="20" BorderBrush="Transparent" Cursor="Hand" Checked="PasswordToggleButton_Checked" Unchecked="PasswordToggleButton_Unchecked">
-                        <Grid>
-                            <fa5:SvgAwesome x:Name="ToggleButtonIconOff" Icon="Regular_EyeSlash"/>
-                            <fa5:SvgAwesome x:Name="ToggleButtonIconOn" Icon="Regular_Eye" Visibility="Hidden"/>
-                        </Grid>
-                    </ToggleButton>
                     <Button x:Name="LoginButton" Grid.Row="3" Content="LOGIN" Width="175" HorizontalAlignment="Left" Margin="40,10,0,70" Click="LoginButton_Click" ToolTip="Login in the application" Style="{StaticResource MyButton}" Cursor="Hand"/>
                     <Button x:Name="ExitButton" Grid.Row="3" Content="EXIT" Width="175" HorizontalAlignment="Right" Margin="0,10,40,70" Click="ExitButton_Click" ToolTip="Close the application" Style="{StaticResource MyButton}" Cursor="Hand"/>
                 </Grid>

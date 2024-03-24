@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -30,20 +31,17 @@ namespace Content_Management_System.Pages
 
         public ObservableCollection<Driver> Drivers { get; set; }
         MainWindow mainWindow;
+        string role;
         
         public DisplayPage(string role)
         {
             InitializeComponent();
             CheckUserRole(role);
-            if(Drivers == null)
-                DeleteDriverButton.IsEnabled = false;
-            else
-                DeleteDriverButton.IsEnabled = true;
             
             
             mainWindow = (MainWindow)Application.Current.MainWindow;
             Drivers = mainWindow.Drivers;
-
+            this.role = role;   
             DataContext = this;
         }
 
@@ -63,7 +61,12 @@ namespace Content_Management_System.Pages
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new LoginPage());
+            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to logout?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                NavigationService.Navigate(new LoginPage());
+            }
         }
 
         private void AddDriverButton_Click(object sender, RoutedEventArgs e)
@@ -78,28 +81,50 @@ namespace Content_Management_System.Pages
 
         private void DeleteDriverButton_Click(object sender, RoutedEventArgs e)
         {
-                foreach(Driver driver in Drivers)
+            foreach (var driver in Drivers.ToList())
+            {
+                // Check if the driver is selected for deletion
+                if (driver.IsSelected)
                 {
-                    if(driver.IsSelected == true)
-                    {
-                        Drivers.Remove(driver);
-                    }
-                }
-                /*  TO DO: Remove Drivers from XML file
-                DataIO dataIO = new DataIO();
-                dataIO.SerializeObject(driversToKeep, "drivers.xml");
+                    // Remove the driver from the collection
+                    Drivers.Remove(driver);
 
-                // Update the Drivers list in your application
-                Drivers = driversToKeep;
-                */
+                    // Serialize the updated list of drivers and overwrite the existing XML file
+                    DataIO dataIO = new DataIO();
+                    dataIO.SerializeObject(Drivers.ToList(), "Drivers.xml");
+                }
+            }
         }
 
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        private void DriversDataGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            var selectedDriver = (sender as Hyperlink).DataContext as Driver;
-            if(selectedDriver != null)
+            DependencyObject dep = (DependencyObject)e.OriginalSource;
+
+            // Check if the clicked element is a hyperlink within a DataGridHyperlinkColumn
+            if (dep is TextBlock textBlock && textBlock.Parent is DataGridCell cell && cell.Column is DataGridHyperlinkColumn)
             {
-                NavigationService.Navigate(new DriverDetailsPage(selectedDriver));
+                // Traverse the visual tree to find the DataGridRow
+                while ((dep != null) && !(dep is DataGridRow))
+                {
+                    dep = VisualTreeHelper.GetParent(dep);
+                }
+
+                if (dep is DataGridRow row)
+                {
+                    // Get the DataContext (which should be your Driver object) of the clicked row
+                    Driver selectedDriver = row.DataContext as Driver;
+
+                    if (role == "Visitor")
+                    {
+                        DriverDetailsPage driverDetailsPage = new DriverDetailsPage(selectedDriver);
+                        NavigationService.Navigate(driverDetailsPage);
+                    }
+                    else
+                    {
+                        EditDriverPage editDriverPage = new EditDriverPage(selectedDriver);
+                        NavigationService.Navigate(editDriverPage);
+                    }
+                }
             }
         }
     }

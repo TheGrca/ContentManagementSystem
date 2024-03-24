@@ -26,6 +26,7 @@ namespace Content_Management_System.Pages
     public partial class AddDriverPage : Page
     {
         string selectedImageName;
+        string fullImagePath;
         DataIO serializer = new DataIO();
         public AddDriverPage()
         {
@@ -110,10 +111,11 @@ namespace Content_Management_System.Pages
             openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
-                selectedImageName= System.IO.Path.GetFileName(openFileDialog.FileName);
+                fullImagePath = openFileDialog.FileName;
+                selectedImageName = System.IO.Path.GetFileName(fullImagePath);
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
-                bitmap.UriSource = new Uri(openFileDialog.FileName);
+                bitmap.UriSource = new Uri(fullImagePath);
                 bitmap.DecodePixelWidth = 50;
                 bitmap.DecodePixelHeight = 50;
                 bitmap.EndInit();
@@ -128,7 +130,7 @@ namespace Content_Management_System.Pages
                 string driverNumber = DriverNumberTextBox.Text.Trim();
                 string driverName = DriverNameTextBox.Text.Trim();
                 string driverDescription = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd).Text.Trim();
-                string picturePath = selectedImageName;
+                string picturePath = fullImagePath;
 
                 // Generate a unique filename for RTF document
                 string rtfFileName = $"Driver_{driverNumber}_{DateTime.Now:yyyyMMddHHmmss}.rtf";

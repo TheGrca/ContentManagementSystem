@@ -150,19 +150,5 @@ namespace Content_Management_System.Pages
                 PasswordTextBox.Foreground = Brushes.LightSlateGray;
             }
         }
-
-        private void PasswordToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            ToggleButtonIconOff.Visibility = Visibility.Hidden;
-            ToggleButtonIconOn.Visibility = Visibility.Visible;
-            isPasswordHidden = false;
-        }
-
-        private void PasswordToggleButton_Unchecked(object sender, RoutedEventArgs e)
-        {
-            ToggleButtonIconOff.Visibility = Visibility.Visible;
-            ToggleButtonIconOn.Visibility = Visibility.Hidden;
-            isPasswordHidden = true;
-        }
     }
 }
