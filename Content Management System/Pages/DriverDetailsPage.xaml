@@ -18,7 +18,7 @@
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
         <Button x:Name="BackButton" Content="BACK" Height="30" Width="100" Cursor="Hand" HorizontalAlignment="Left" Margin="20 5 0 0" Style="{StaticResource MyButton}" ToolTip="Return to the previous page." Click="BackButton_Click"/>
-        <TextBlock Text="{Binding Name}" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="SemiBold"/>
+        <TextBlock Text="{Binding Name}" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="DemiBold"/>
         <Label Content="PICTURE:" Grid.Column="0" FontSize="20" Grid.ColumnSpan="2" Margin="70,83,280,0" Grid.RowSpan="2"/>
         <Image x:Name="DriverPicture" Height="200" Width="200" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Source="{Binding Picture}" Margin="70,40,0,0" Grid.Row="1"/>
         <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="0 0 10 120" Height="50" Orientation="Horizontal" Width="200">
