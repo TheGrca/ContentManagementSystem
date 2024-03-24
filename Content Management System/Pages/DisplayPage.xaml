@@ -29,21 +29,30 @@
             Grid.Row="0"
             Grid.ColumnSpan="3"
             Grid.RowSpan="4"
-            Margin="30,10,30,10"
+            Margin="40,10,40,10"
             ItemsSource="{Binding Drivers}"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ScrollViewer.CanContentScroll="True" 
             ScrollViewer.VerticalScrollBarVisibility="Auto"
-            ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-            PreviewMouseDown="DriversDataGrid_PreviewMouseDown">
+            ScrollViewer.HorizontalScrollBarVisibility="Auto" >
             <DataGrid.Columns >
                 <DataGridCheckBoxColumn Header="Check" Width="Auto" Binding="{Binding IsSelected}"/>
-                <DataGridHyperlinkColumn x:Name="Hyperlink" Header="Hyperlink" Width="*" ContentBinding="{Binding Name}"/>
+                <DataGridTemplateColumn Width="*" Header="Name">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Hyperlink Click="Hyperlink_Click">
+                                <TextBlock Text="{Binding Name}"/>
+                            </Hyperlink>
+                           </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTemplateColumn IsReadOnly="True" Header="Picture">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding Picture}" Width="100" Height="100"/>
+                            <Image Source="{Binding Picture}" Height="50" Width="100"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

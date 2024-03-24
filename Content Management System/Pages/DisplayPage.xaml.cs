@@ -97,6 +97,10 @@ namespace Content_Management_System.Pages
                         {
                             if (driver.IsSelected)
                             {
+                                if (File.Exists(driver.RtfPath))
+                                {
+                                    File.Delete(driver.RtfPath);
+                                }
                                 Drivers.Remove(driver);
                                 DataIO dataIO = new DataIO();
                                 dataIO.SerializeObject(Drivers.ToList(), "Drivers.xml");
@@ -111,37 +115,22 @@ namespace Content_Management_System.Pages
                 }
             }
         }
-
-        private void DriversDataGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            DependencyObject dep = (DependencyObject)e.OriginalSource;
-
-            // Check if the clicked element is a hyperlink within a DataGridHyperlinkColumn
-            if (dep is TextBlock textBlock && textBlock.Parent is DataGridCell cell && cell.Column is DataGridHyperlinkColumn)
+            if (sender is Hyperlink hyperlink && hyperlink.DataContext is Driver selectedDriver)
             {
-                // Traverse the visual tree to find the DataGridRow
-                while ((dep != null) && !(dep is DataGridRow))
+                if (role == "Visitor")
                 {
-                    dep = VisualTreeHelper.GetParent(dep);
+                    DriverDetailsPage driverDetailsPage = new DriverDetailsPage(selectedDriver);
+                    NavigationService.Navigate(driverDetailsPage);
                 }
-
-                if (dep is DataGridRow row)
+                else
                 {
-                    // Get the DataContext (which should be your Driver object) of the clicked row
-                    Driver selectedDriver = row.DataContext as Driver;
-
-                    if (role == "Visitor")
-                    {
-                        DriverDetailsPage driverDetailsPage = new DriverDetailsPage(selectedDriver);
-                        NavigationService.Navigate(driverDetailsPage);
-                    }
-                    else
-                    {
-                        EditDriverPage editDriverPage = new EditDriverPage(selectedDriver);
-                        NavigationService.Navigate(editDriverPage);
-                    }
+                    EditDriverPage editDriverPage = new EditDriverPage(selectedDriver);
+                    NavigationService.Navigate(editDriverPage);
                 }
             }
+
         }
     }
 }

@@ -23,7 +23,21 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="BackButton" Content="BACK" Height="30" Width="100" Cursor="Hand" HorizontalAlignment="Left" Margin="20 5 0 0" Click="BackButton_Click" Style="{StaticResource MyButton}" ToolTip="Return to the previous page."/>
+            <Button x:Name="BackButton" Height="30" Width="100" Cursor="Hand" HorizontalAlignment="Left" Margin="20 5 0 0" Click="BackButton_Click" Style="{StaticResource MyButton}" ToolTip="Return to the previous page.">
+                <StackPanel Orientation="Horizontal">
+                    <fa5:SvgAwesome
+                            Height="13"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Icon="Solid_ArrowLeft"
+                            Foreground="White"
+                            Margin="0 0 5 0"/>
+                    <TextBlock
+                            Margin="3,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="BACK" />
+                </StackPanel>
+            </Button>
             <TextBlock Grid.ColumnSpan="2" Text="ADD A DRIVER" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
 
             <ToolBar Grid.Row="1" Grid.ColumnSpan="2" Width="630" Height="30" VerticalAlignment="Center">
@@ -65,10 +79,24 @@
 
                 <StackPanel Grid.Row="2"  Width="221">
                     <Label Width="130" Height="30" Content="DRIVER PICTURE:" HorizontalAlignment="Left" FontSize="15" FontWeight="SemiBold" Margin="15 0 0 0"/>
-                    <Button x:Name="SelectPictureButton" Width="150" Height="40" Content="SELECT PICTURE" Cursor="Hand" Click="SelectPictureButton_Click" Style="{StaticResource MyButton}" ToolTip="Select a picture to upload." Margin="0 5 40 0"/>
+                    <Button x:Name="SelectPictureButton" Width="150" Height="40" Cursor="Hand" Click="SelectPictureButton_Click" Style="{StaticResource MyButton}" ToolTip="Select a picture to upload." Margin="0 5 40 0">
+                        <StackPanel Orientation="Horizontal">
+                            <fa5:SvgAwesome
+                            Height="13"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Icon="Solid_Camera"
+                            Foreground="White"
+                            Margin="0 0 5 0"/>
+                            <TextBlock
+                            Margin="3,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="SELECT PICTURE" />
+                        </StackPanel>
+                    </Button>
                     <Label x:Name="DriverPictureErrorLabel" Width="209" Height="30" Margin="10 0 0 0" Foreground="red"/>
                 </StackPanel>
-                <Rectangle  Width="80" Height="80" Margin="0 0 100 0">
+                <Rectangle  Width="80" Height="80" Stretch="Uniform">
                     <Rectangle.Fill>
                         <ImageBrush x:Name="PreviewPictureBrush"/>
                     </Rectangle.Fill>
@@ -84,7 +112,21 @@
                 </StatusBarItem>
             </StatusBar>
 
-            <Button x:Name="AddDriverButton" Grid.Row="5" Grid.ColumnSpan="2" Cursor="Hand" Height="50" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Content="ADD DRIVER" Click="AddDriverButton_Click" Style="{StaticResource MyButton}" ToolTip="Add the driver to Mercedes F1 team."/>
+            <Button x:Name="AddDriverButton" Grid.Row="5" Grid.ColumnSpan="2" Cursor="Hand" Height="50" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddDriverButton_Click" Style="{StaticResource MyButton}" ToolTip="Add the driver to Mercedes F1 team.">
+                <StackPanel Orientation="Horizontal">
+                    <fa5:SvgAwesome
+                            Height="13"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Icon="Solid_Plus"
+                            Foreground="White"
+                            Margin="0 0 5 0"/>
+                    <TextBlock
+                            Margin="3,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="ADD DRIVER" />
+                </StackPanel>
+            </Button>
         </Grid>
     </Border>
 </Page>

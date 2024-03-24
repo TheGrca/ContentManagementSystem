@@ -54,11 +54,16 @@ namespace Content_Management_System.Pages
         private bool ValidateEmptyFormData()
         {
             bool isValid = true;
-
             if (DriverNumberTextBox.Text.Trim().Equals(string.Empty))
             {
                 isValid = false;
                 DriverNumberErrorLabel.Content = "Number field cannot be empty!";
+                DriverNumberTextBox.BorderBrush = Brushes.Red;
+            }
+            else if (!int.TryParse(DriverNumberTextBox.Text, out _))
+            {
+                isValid = false;
+                DriverNumberErrorLabel.Content = "Number field must be a number!";
                 DriverNumberTextBox.BorderBrush = Brushes.Red;
             }
             else

@@ -2,20 +2,11 @@
 <ArrayOfDriver xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Driver>
     <IsSelected>false</IsSelected>
-    <Number>1</Number>
-    <Name>Leriiii</Name>
-    <Description>jess</Description>
-    <Picture>Hamilton.jpg</Picture>
-    <RtfPath>Driver_1_20240321183809.rtf</RtfPath>
-    <Date>2024-03-21T18:38:09.04455+01:00</Date>
-  </Driver>
-  <Driver>
-    <IsSelected>false</IsSelected>
-    <Number>333</Number>
-    <Name>jjj</Name>
-    <Description>zxczxc</Description>
+    <Number>123</Number>
+    <Name>as</Name>
+    <Description>asdzxc</Description>
     <Picture>C:\Users\Korisnik\Desktop\Content Management System\Content Management System\bin\Debug\Hamilton.jpg</Picture>
-    <RtfPath>Driver_333_20240324174545.rtf</RtfPath>
-    <Date>2024-03-24T17:45:45.2558132+01:00</Date>
+    <RtfPath>Driver_123_20240325004143.rtf</RtfPath>
+    <Date>2024-03-25T00:41:43.6007991+01:00</Date>
   </Driver>
 </ArrayOfDriver>

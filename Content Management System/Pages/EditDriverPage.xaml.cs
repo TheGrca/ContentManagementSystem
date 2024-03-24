@@ -26,6 +26,12 @@ namespace Content_Management_System.Pages
         public EditDriverPage(Driver driver)
         {
             InitializeComponent();
+
+            GetCharacterCount();
+
+            FontSizeComboBox.SelectedIndex = 2;
+            FontColorComboBox.SelectedValue = "Black";
+
             FontFamilyComboBox.ItemsSource = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
             for (int i = 8; i <= 24; i += 2)
             {
@@ -38,8 +44,6 @@ namespace Content_Management_System.Pages
                 LoadRTFContent(driver.RtfPath);
             }
         }
-
-
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
@@ -54,6 +58,12 @@ namespace Content_Management_System.Pages
             {
                 isValid = false;
                 DriverNumberErrorLabel.Content = "Number field cannot be empty!";
+                DriverNumberTextBox.BorderBrush = Brushes.Red;
+            }
+            else if (!int.TryParse(DriverNumberTextBox.Text, out _))
+            {
+                isValid = false;
+                DriverNumberErrorLabel.Content = "Number field must be a number!";
                 DriverNumberTextBox.BorderBrush = Brushes.Red;
             }
             else
@@ -96,18 +106,6 @@ namespace Content_Management_System.Pages
             {
                 DriverNameErrorLabel.Content = string.Empty;
                 DriverNameTextBox.BorderBrush = Brushes.Transparent;
-            }
-
-            if(!int.TryParse(DriverNumberTextBox.Text, out int value))
-            {
-                isValid = false;
-                DriverNumberErrorLabel.Content = "Number field must be a number!";
-                DriverNumberTextBox.BorderBrush = Brushes.Red;
-            }
-            else
-            {
-                DriverNumberErrorLabel.Content = string.Empty;
-                DriverNumberTextBox.BorderBrush = Brushes.Transparent;
             }
 
             return isValid;
@@ -196,8 +194,8 @@ namespace Content_Management_System.Pages
 
         private void FontSizeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //TO DO: Try catch
-            if (double.TryParse(FontSizeComboBox.SelectedItem.ToString(), out double fontSize))
+
+            if (FontSizeComboBox.SelectedItem != null && double.TryParse(FontSizeComboBox.SelectedItem.ToString(), out double fontSize))
             {
                 DriverDescriptionRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, fontSize);
             }
@@ -223,9 +221,14 @@ namespace Content_Management_System.Pages
             object fontColor = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.ForegroundProperty);
             FontColorComboBox.SelectedItem = fontColor;
 
+            GetCharacterCount();
+
+        }
+
+        private void GetCharacterCount()
+        {
             int charCount = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd).Text.Length;
             CharacterCounterLabel.Content = (charCount - 2).ToString();
-
         }
 
         private void LoadRTFContent(string rtfFilePath)
