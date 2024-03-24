@@ -30,8 +30,8 @@ namespace Content_Management_System.Pages
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<Driver> Drivers { get; set; }
-        MainWindow mainWindow;
-        string role;
+        public MainWindow mainWindow;
+        private string role;
         
         public DisplayPage(string role)
         {
@@ -81,17 +81,33 @@ namespace Content_Management_System.Pages
 
         private void DeleteDriverButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var driver in Drivers.ToList())
+            if (Drivers.Count(d => d.IsSelected) == 0)
             {
-                // Check if the driver is selected for deletion
-                if (driver.IsSelected)
-                {
-                    // Remove the driver from the collection
-                    Drivers.Remove(driver);
+                mainWindow.ShowToastNotification(new ToastNotification("Error", "Must pick a driver/s before deleting!", Notification.Wpf.NotificationType.Error));
+            }
+            else
+            {
+                MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to delete?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-                    // Serialize the updated list of drivers and overwrite the existing XML file
-                    DataIO dataIO = new DataIO();
-                    dataIO.SerializeObject(Drivers.ToList(), "Drivers.xml");
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        foreach (var driver in Drivers.ToList())
+                        {
+                            if (driver.IsSelected)
+                            {
+                                Drivers.Remove(driver);
+                                DataIO dataIO = new DataIO();
+                                dataIO.SerializeObject(Drivers.ToList(), "Drivers.xml");
+                            }
+                        }
+                        mainWindow.ShowToastNotification(new ToastNotification("Success", "Driver/s deleted successfully!", Notification.Wpf.NotificationType.Success));
+                    }
+                    catch (Exception)
+                    {
+                        mainWindow.ShowToastNotification(new ToastNotification("Error", "Error while deleting driver/s", Notification.Wpf.NotificationType.Error));
+                    }
                 }
             }
         }

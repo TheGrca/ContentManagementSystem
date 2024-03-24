@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Content_Management_System.Class;
+using Notification.Wpf;
 
 namespace Content_Management_System
 {
@@ -24,15 +25,27 @@ namespace Content_Management_System
 
     public partial class MainWindow : Window
     {
+        private NotificationManager notificationManager;
         private DataIO serializer = new DataIO();
         public ObservableCollection<Driver> Drivers;
         public MainWindow()
         {
             InitializeComponent();
+            notificationManager = new NotificationManager();
             Drivers = serializer.DeSerializeObject<ObservableCollection<Driver>>("Drivers.xml");
             if(Drivers == null) {
                 Drivers = new ObservableCollection<Driver>();
             }
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+
+        public void ShowToastNotification(ToastNotification toastNotification)
+        {
+            notificationManager.Show(toastNotification.Title, toastNotification.Message, toastNotification.Type, "WindowNotificationArea");
         }
     }
 }

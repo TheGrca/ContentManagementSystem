@@ -31,6 +31,7 @@ namespace Content_Management_System.Pages
             {
                 LoadRTFContent(selectedDriver.RtfPath);
             }
+           
         }
 
         private void LoadRTFContent(string rtfFilePath)

@@ -4,14 +4,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:fa5="http://schemas.fontawesome.com/icons/"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+       xmlns:notifications="clr-namespace:Notification.Wpf.Controls;assembly=Notification.Wpf"
         xmlns:local="clr-namespace:Content_Management_System"
         mc:Ignorable="d"
         Title="MainWindow"
         AllowsTransparency="True"
         Background="Transparent"
-        WindowStyle="None">
+        WindowStyle="None"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
 
     <Canvas Width="800" Height="700">
+        <notifications:NotificationArea
+             x:Name="WindowNotificationArea"
+             Margin="10 10 0 0"
+             Panel.ZIndex="1000"
+             MaxItems="3"
+             />
         <Path 
             Name="UIPath"
             Fill="#141517"

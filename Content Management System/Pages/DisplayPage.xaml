@@ -31,6 +31,7 @@
             Margin="30,10,30,10"
             ItemsSource="{Binding Drivers}"
             AutoGenerateColumns="False"
+            CanUserAddRows="False"
             ScrollViewer.CanContentScroll="True" 
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             ScrollViewer.HorizontalScrollBarVisibility="Auto" 
@@ -38,14 +39,14 @@
             <DataGrid.Columns >
                 <DataGridCheckBoxColumn Header="Check" Width="Auto" Binding="{Binding IsSelected}"/>
                 <DataGridHyperlinkColumn x:Name="Hyperlink" Header="Hyperlink" Width="*" ContentBinding="{Binding Name}"/>
-                <DataGridTemplateColumn IsReadOnly="True" Header="Picture" Width="*" >
+                <DataGridTemplateColumn IsReadOnly="True" Header="Picture">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding Picture}" Width="30" Height="30" />
+                            <Image Source="{Binding Picture}" Width="100" Height="100"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn IsReadOnly="True" Header="Date added" Binding="{Binding Date}" Width="*" />
+                <DataGridTextColumn IsReadOnly="True" Header="Date added" Binding="{Binding Date}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel
@@ -75,6 +76,7 @@
                 Style="{StaticResource MyButton}"
                 Background="white"
                 Foreground="Black"
+                
                 ToolTip="Delete the selected drivers."
                 Cursor="Hand" 
                 Click="DeleteDriverButton_Click"

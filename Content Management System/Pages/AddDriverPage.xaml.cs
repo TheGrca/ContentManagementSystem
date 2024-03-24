@@ -33,6 +33,7 @@ namespace Content_Management_System.Pages
             InitializeComponent();
             CharacterCounterLabel.Content = "0";
             FontSizeComboBox.SelectedIndex = 2;
+            FontColorComboBox.SelectedValue = "Black";
 
             FontFamilyComboBox.ItemsSource = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
            
@@ -101,6 +102,17 @@ namespace Content_Management_System.Pages
                 DriverNameErrorLabel.Content = string.Empty;
                 DriverNameTextBox.BorderBrush = Brushes.Transparent;
             }
+            if (!int.TryParse(DriverNumberTextBox.Text, out int value))
+            {
+                isValid = false;
+                DriverNumberErrorLabel.Content = "Number field must be a number!";
+                DriverNumberTextBox.BorderBrush = Brushes.Red;
+            }
+            else
+            {
+                DriverNumberErrorLabel.Content = string.Empty;
+                DriverNumberTextBox.BorderBrush = Brushes.Transparent;
+            }
 
             return isValid;
         }
@@ -125,19 +137,17 @@ namespace Content_Management_System.Pages
 
         private void AddDriverButton_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             if (ValidateEmptyFormData())
             {
                 string driverNumber = DriverNumberTextBox.Text.Trim();
                 string driverName = DriverNameTextBox.Text.Trim();
                 string driverDescription = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd).Text.Trim();
                 string picturePath = fullImagePath;
-
-                // Generate a unique filename for RTF document
                 string rtfFileName = $"Driver_{driverNumber}_{DateTime.Now:yyyyMMddHHmmss}.rtf";
 
                 try
                 {
-                    // Create and save RTF document
                     using (FileStream fileStream = new FileStream(rtfFileName, FileMode.Create))
                     {
                         TextRange textRange = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd);
@@ -145,16 +155,15 @@ namespace Content_Management_System.Pages
                     }
 
                     Driver driver = new Driver(int.Parse(driverNumber), driverName, driverDescription ,picturePath, rtfFileName, DateTime.Now);
-                    MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
                     // Save driver information to XML file
                     mainWindow.Drivers.Add(driver);
                     serializer.SerializeObject<ObservableCollection<Driver>>(mainWindow.Drivers, "Drivers.xml");
-                    MessageBox.Show("Driver added successfully."); //TO DO: Toaster notifikacija
+                    mainWindow.ShowToastNotification(new ToastNotification("Success", "Driver added successfully!", Notification.Wpf.NotificationType.Success));
                     NavigationService.GoBack();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    MessageBox.Show("Error adding driver: " + ex.Message); //TO DO: Toaster notifikacija
+                    mainWindow.ShowToastNotification(new ToastNotification("Error", "Error while adding a driver", Notification.Wpf.NotificationType.Error));
                 }
             }
         }
@@ -185,11 +194,10 @@ namespace Content_Management_System.Pages
 
         private void FontSizeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //TO DO: Try catch
-            if (double.TryParse(FontSizeComboBox.SelectedItem.ToString(), out double fontSize))
-            {
-                DriverDescriptionRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, fontSize);
-            }
+                if (FontSizeComboBox.SelectedItem != null && double.TryParse(FontSizeComboBox.SelectedItem.ToString(), out double fontSize))
+                {
+                    DriverDescriptionRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, fontSize);
+                }
         }
 
         private void DriverDescriptionRichTextBox_SelectionChanged(object sender, RoutedEventArgs e)
@@ -206,11 +214,20 @@ namespace Content_Management_System.Pages
             object fontFamily = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.FontFamilyProperty);
             FontFamilyComboBox.SelectedItem = fontFamily;
 
-            object fontSize = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.FontSizeProperty);
-            FontSizeComboBox.SelectedItem = fontSize;
+            object fontSizeValue = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.FontSizeProperty);
+            double fontSize;
+            if (fontSizeValue != DependencyProperty.UnsetValue && double.TryParse(fontSizeValue.ToString(), out fontSize))
+            {
+                FontSizeComboBox.SelectedItem = fontSize; // You might need to convert this to the correct font size option in the ComboBox
+            }
 
-            object fontColor = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.ForegroundProperty);
-            FontColorComboBox.SelectedItem = fontColor;
+            // Font color
+            object fontColorValue = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.ForegroundProperty);
+            if (fontColorValue != DependencyProperty.UnsetValue && fontColorValue is Brush)
+            {
+                Brush fontColorBrush = fontColorValue as Brush;
+                FontColorComboBox.SelectedItem = fontColorBrush; // You might need to convert this to the correct font color option in the ComboBox
+            }
 
             int charCount = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd).Text.Length;
             CharacterCounterLabel.Content = (charCount - 2).ToString();

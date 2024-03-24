@@ -67,15 +67,11 @@
                         <Button x:Name="SelectPictureButton" Width="150" Height="40" Content="SELECT PICTURE" Cursor="Hand" Click="SelectPictureButton_Click" Style="{StaticResource MyButton}" ToolTip="Select a picture to upload." Margin="0 5 40 0"/>
                         <Label x:Name="DriverPictureErrorLabel" Width="209" Height="30" Margin="10 0 0 0" Foreground="red"/>
                     </StackPanel>
-                    <Rectangle  Width="80" Height="80" Margin="0 0 100 100">
-                        <Rectangle.Fill>
-                            <ImageBrush x:Name="PreviewPictureBrush"/>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </StackPanel>
+                <Image Width="80" Height="80" Margin="0 0 100 100" Source="{Binding Picture}" x:Name="DriverPicture"/>
+            </StackPanel>
 
                 <Label Content="DRIVER DESCRIPTION:" Grid.Row="2" Grid.Column="1" FontSize="15" FontWeight="SemiBold" Margin="5 0 0 0"/>
-                <RichTextBox x:Name="DriverDescriptionRichTextBox" Grid.Column="1" Grid.Row="2" Margin="10,30,10,42" SelectionChanged="DriverDescriptionRichTextBox_SelectionChanged"/>
+            <RichTextBox x:Name="DriverDescriptionRichTextBox" Grid.Column="1" Grid.Row="2" Margin="10,30,10,42" SelectionChanged="DriverDescriptionRichTextBox_SelectionChanged"/>
                 <Label x:Name="DescriptionRichTextBoxError" Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" Height="30" Width="250" Margin="15 0 0 7" HorizontalAlignment="Left" Foreground="red"/>
                 <Label x:Name="CharacterCounterLabel" Width="50" Height="30" Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0 0 15 7" FontSize="15"/>
 

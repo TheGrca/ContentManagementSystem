@@ -32,6 +32,11 @@ namespace Content_Management_System.Pages
                 FontSizeComboBox.Items.Add(i);
             }
             typeof(Colors).GetProperties().ToList().ForEach(f => { FontColorComboBox.Items.Add(f.Name); });
+            DataContext = driver;
+            if (!string.IsNullOrEmpty(driver.RtfPath))
+            {
+                LoadRTFContent(driver.RtfPath);
+            }
         }
 
 
@@ -69,7 +74,7 @@ namespace Content_Management_System.Pages
                 DriverDescriptionRichTextBox.BorderBrush = Brushes.Transparent;
             }
 
-            if (PreviewPictureBrush.ImageSource == null)
+            if (DriverPicture.DataContext == null)
             {
                 isValid = false;
                 DriverPictureErrorLabel.Content = "Driver picture must be uploaded!";
@@ -93,6 +98,18 @@ namespace Content_Management_System.Pages
                 DriverNameTextBox.BorderBrush = Brushes.Transparent;
             }
 
+            if(!int.TryParse(DriverNumberTextBox.Text, out int value))
+            {
+                isValid = false;
+                DriverNumberErrorLabel.Content = "Number field must be a number!";
+                DriverNumberTextBox.BorderBrush = Brushes.Red;
+            }
+            else
+            {
+                DriverNumberErrorLabel.Content = string.Empty;
+                DriverNumberTextBox.BorderBrush = Brushes.Transparent;
+            }
+
             return isValid;
         }
 
@@ -109,12 +126,13 @@ namespace Content_Management_System.Pages
                 bitmap.DecodePixelWidth = 50;
                 bitmap.DecodePixelHeight = 50;
                 bitmap.EndInit();
-                PreviewPictureBrush.ImageSource = bitmap;
+                DriverPicture.Source = bitmap;
             }
         }
 
         private void EditDriverButton_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             if (ValidateEmptyFormData())
             {
                 string driverNumber = DriverNumberTextBox.Text.Trim();
@@ -122,29 +140,32 @@ namespace Content_Management_System.Pages
                 string driverDescription = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd).Text.Trim();
                 string picturePath = selectedImageName;
 
-                // Generate a unique filename for RTF document
-                string rtfFileName = $"Driver_{driverNumber}_{DateTime.Now:yyyyMMddHHmmss}.rtf";
-
                 try
                 {
-                    // Create and save RTF document
-                    using (FileStream fileStream = new FileStream(rtfFileName, FileMode.Create))
+                    Driver driverToEdit = mainWindow.Drivers.FirstOrDefault(d => d.Number == int.Parse(driverNumber));
+                    if (driverToEdit != null)
                     {
-                        TextRange textRange = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd);
-                        textRange.Save(fileStream, DataFormats.Rtf);
-                    }
+                        driverToEdit.Name = driverName;
+                        driverToEdit.Description = driverDescription;
+                        driverToEdit.Picture = picturePath;
+                        using (FileStream fileStream = new FileStream(driverToEdit.RtfPath, FileMode.Open))
+                        {
+                            TextRange textRange = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd);
+                            textRange.Save(fileStream, DataFormats.Rtf);
+                        }
 
-                    Driver driver = new Driver(int.Parse(driverNumber), driverName, driverDescription, picturePath, rtfFileName, DateTime.Now);
-                    MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-                    // Save driver information to XML file
-                    mainWindow.Drivers.Add(driver);
-                    serializer.SerializeObject<ObservableCollection<Driver>>(mainWindow.Drivers, "Drivers.xml");
-                    MessageBox.Show("Driver added successfully."); //TO DO: Toaster notifikacija
-                    NavigationService.GoBack();
+                        serializer.SerializeObject<ObservableCollection<Driver>>(mainWindow.Drivers, "Drivers.xml");
+                        mainWindow.ShowToastNotification(new ToastNotification("Success", "Driver edited successfully!", Notification.Wpf.NotificationType.Success));
+                        NavigationService.GoBack();
+                    }
+                    else
+                    {
+                        mainWindow.ShowToastNotification(new ToastNotification("Error", "Driver not found!", Notification.Wpf.NotificationType.Error));
+                    }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error adding driver: " + ex.Message); //TO DO: Toaster notifikacija
+                    mainWindow.ShowToastNotification(new ToastNotification("Error", "Error while adding a driver", Notification.Wpf.NotificationType.Error));
                 }
             }
         }
@@ -205,6 +226,22 @@ namespace Content_Management_System.Pages
             int charCount = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd).Text.Length;
             CharacterCounterLabel.Content = (charCount - 2).ToString();
 
+        }
+
+        private void LoadRTFContent(string rtfFilePath)
+        {
+            try
+            {
+                using (FileStream fs = new FileStream(rtfFilePath, FileMode.Open))
+                {
+                    TextRange range = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd);
+                    range.Load(fs, DataFormats.Rtf);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading RTF content: {ex.Message}");
+            }
         }
     }
 }

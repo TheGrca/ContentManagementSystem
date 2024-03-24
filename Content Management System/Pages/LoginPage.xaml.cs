@@ -24,7 +24,6 @@ namespace Content_Management_System.Pages
     /// </summary>
     public partial class LoginPage : Page
     {
-        bool isPasswordHidden = true;
         public LoginPage()
         {
             InitializeComponent();
