@@ -27,7 +27,7 @@ namespace Content_Management_System.Pages
         {
             InitializeComponent();
 
-            GetCharacterCount();
+            DriverDescriptionRichTextBox.Loaded += DriverDescriptionRichTextBox_Loaded;
 
             FontSizeComboBox.SelectedIndex = 2;
             FontColorComboBox.SelectedValue = "Black";
@@ -135,30 +135,32 @@ namespace Content_Management_System.Pages
             {
                 string driverNumber = DriverNumberTextBox.Text.Trim();
                 string driverName = DriverNameTextBox.Text.Trim();
+                string driverPicture = DriverPicture.Source.ToString();
                 string driverDescription = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd).Text.Trim();
-                string picturePath = selectedImageName;
 
                 try
                 {
-                    Driver driverToEdit = mainWindow.Drivers.FirstOrDefault(d => d.Number == int.Parse(driverNumber));
-                    if (driverToEdit != null)
                     {
-                        driverToEdit.Name = driverName;
-                        driverToEdit.Description = driverDescription;
-                        driverToEdit.Picture = picturePath;
-                        using (FileStream fileStream = new FileStream(driverToEdit.RtfPath, FileMode.Open))
+                        Driver driverToEdit = mainWindow.Drivers.FirstOrDefault(d => d.Number == int.Parse(driverNumber));
+                        if (driverToEdit != null)
                         {
-                            TextRange textRange = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd);
-                            textRange.Save(fileStream, DataFormats.Rtf);
-                        }
+                            driverToEdit.Name = driverName;
+                            driverToEdit.Description = driverDescription;
+                            driverToEdit.Picture = driverPicture;
+                            using (FileStream fileStream = new FileStream(driverToEdit.RtfPath, FileMode.Open))
+                            {
+                                TextRange textRange = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd);
+                                textRange.Save(fileStream, DataFormats.Rtf);
+                            }
 
-                        serializer.SerializeObject<ObservableCollection<Driver>>(mainWindow.Drivers, "Drivers.xml");
-                        mainWindow.ShowToastNotification(new ToastNotification("Success", "Driver edited successfully!", Notification.Wpf.NotificationType.Success));
-                        NavigationService.GoBack();
-                    }
-                    else
-                    {
-                        mainWindow.ShowToastNotification(new ToastNotification("Error", "Driver not found!", Notification.Wpf.NotificationType.Error));
+                            serializer.SerializeObject<ObservableCollection<Driver>>(mainWindow.Drivers, "Drivers.xml");
+                            mainWindow.ShowToastNotification(new ToastNotification("Success", "Driver edited successfully!", Notification.Wpf.NotificationType.Success));
+                            NavigationService.GoBack();
+                        }
+                        else
+                        {
+                            mainWindow.ShowToastNotification(new ToastNotification("Error", "Driver not found!", Notification.Wpf.NotificationType.Error));
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -194,10 +196,9 @@ namespace Content_Management_System.Pages
 
         private void FontSizeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            if (FontSizeComboBox.SelectedItem != null && double.TryParse(FontSizeComboBox.SelectedItem.ToString(), out double fontSize))
+            if (FontSizeComboBox.SelectedItem != null && !DriverDescriptionRichTextBox.Selection.IsEmpty)
             {
-                DriverDescriptionRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, fontSize);
+                DriverDescriptionRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, double.Parse(FontSizeComboBox.SelectedItem.ToString()));
             }
         }
 
@@ -216,10 +217,23 @@ namespace Content_Management_System.Pages
             FontFamilyComboBox.SelectedItem = fontFamily;
 
             object fontSize = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.FontSizeProperty);
-            FontSizeComboBox.SelectedItem = fontSize;
+            if (fontSize != DependencyProperty.UnsetValue)
+            {
+                FontSizeComboBox.SelectedItem = (int)(double)fontSize;
+            }
+            object fontColorObject = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.ForegroundProperty);
+            if (fontColorObject != DependencyProperty.UnsetValue && fontColorObject is SolidColorBrush)
+            {
+                SolidColorBrush fontColorBrush = (SolidColorBrush)fontColorObject;
+                Color color = fontColorBrush.Color;
 
-            object fontColor = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.ForegroundProperty);
-            FontColorComboBox.SelectedItem = fontColor;
+                string colorName = typeof(Colors).GetProperties()
+                                                 .FirstOrDefault(p => ((Color)p.GetValue(null, null)).ToString() == color.ToString())?.Name;
+                if (!string.IsNullOrEmpty(colorName))
+                {
+                    FontColorComboBox.SelectedItem = colorName;
+                }
+            }
 
             GetCharacterCount();
 
@@ -231,6 +245,10 @@ namespace Content_Management_System.Pages
             CharacterCounterLabel.Content = (charCount - 2).ToString();
         }
 
+        private void DriverDescriptionRichTextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            GetCharacterCount();
+        }
         private void LoadRTFContent(string rtfFilePath)
         {
             try

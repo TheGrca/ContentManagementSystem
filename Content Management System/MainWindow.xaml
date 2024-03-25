@@ -65,7 +65,7 @@
         <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Width="800" Height="701">
             <DockPanel>
                 <Grid Height="120" DockPanel.Dock="Top">
-                    <TextBlock Text="MERCEDES - F1 DRIVERS" Foreground="AntiqueWhite" FontSize="40" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Text="MERCEDES - F1 DRIVERS" Foreground="AntiqueWhite" FontSize="40" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
                 <Frame
                  x:Name="MainFrame"

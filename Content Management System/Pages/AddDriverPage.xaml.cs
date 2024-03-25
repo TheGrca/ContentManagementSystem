@@ -143,6 +143,7 @@ namespace Content_Management_System.Pages
         private void AddDriverButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            bool exists = false;
             if (ValidateEmptyFormData())
             {
                 string driverNumber = DriverNumberTextBox.Text.Trim();
@@ -153,18 +154,30 @@ namespace Content_Management_System.Pages
 
                 try
                 {
-                    using (FileStream fileStream = new FileStream(rtfFileName, FileMode.Create))
+                    foreach(Driver d in mainWindow.Drivers)
                     {
-                        TextRange textRange = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd);
-                        textRange.Save(fileStream, DataFormats.Rtf);
+                        if (d.Number.ToString() == driverNumber)
+                        {
+                            mainWindow.ShowToastNotification(new ToastNotification("Error", "Two drivers cannot have the same number!", Notification.Wpf.NotificationType.Error));
+                            exists = true;
+                            break;
+                        }
                     }
+                    if (!exists)
+                    {
+                        using (FileStream fileStream = new FileStream(rtfFileName, FileMode.Create))
+                        {
+                            TextRange textRange = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd);
+                            textRange.Save(fileStream, DataFormats.Rtf);
+                        }
 
-                    Driver driver = new Driver(int.Parse(driverNumber), driverName, driverDescription ,picturePath, rtfFileName, DateTime.Now);
-                    // Save driver information to XML file
-                    mainWindow.Drivers.Add(driver);
-                    serializer.SerializeObject<ObservableCollection<Driver>>(mainWindow.Drivers, "Drivers.xml");
-                    mainWindow.ShowToastNotification(new ToastNotification("Success", "Driver added successfully!", Notification.Wpf.NotificationType.Success));
-                    NavigationService.GoBack();
+                        Driver driver = new Driver(int.Parse(driverNumber), driverName, driverDescription, picturePath, rtfFileName, DateTime.Now);
+                        // Save driver information to XML file
+                        mainWindow.Drivers.Add(driver);
+                        serializer.SerializeObject<ObservableCollection<Driver>>(mainWindow.Drivers, "Drivers.xml");
+                        mainWindow.ShowToastNotification(new ToastNotification("Success", "Driver added successfully!", Notification.Wpf.NotificationType.Success));
+                        NavigationService.GoBack();
+                    }
                 }
                 catch (Exception)
                 {
@@ -184,8 +197,7 @@ namespace Content_Management_System.Pages
         private void FontColorComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string selectedColor = FontColorComboBox.SelectedItem as string;
-            if(selectedColor != null)
-            {
+            if(selectedColor != null) {
                 Color color = (Color)ColorConverter.ConvertFromString(selectedColor);
                 ColorPreviewRectangle.Fill = new SolidColorBrush(color);
             }
@@ -199,9 +211,9 @@ namespace Content_Management_System.Pages
 
         private void FontSizeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-                if (FontSizeComboBox.SelectedItem != null && double.TryParse(FontSizeComboBox.SelectedItem.ToString(), out double fontSize))
+                if (FontSizeComboBox.SelectedItem != null && !DriverDescriptionRichTextBox.Selection.IsEmpty)
                 {
-                    DriverDescriptionRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, fontSize);
+                    DriverDescriptionRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, double.Parse(FontSizeComboBox.SelectedItem.ToString()));
                 }
         }
 
@@ -219,19 +231,23 @@ namespace Content_Management_System.Pages
             object fontFamily = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.FontFamilyProperty);
             FontFamilyComboBox.SelectedItem = fontFamily;
 
-            object fontSizeValue = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.FontSizeProperty);
-            double fontSize;
-            if (fontSizeValue != DependencyProperty.UnsetValue && double.TryParse(fontSizeValue.ToString(), out fontSize))
+            object fontSize = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.FontSizeProperty);
+            if (fontSize != DependencyProperty.UnsetValue)
             {
-                FontSizeComboBox.SelectedItem = fontSize; // You might need to convert this to the correct font size option in the ComboBox
+                FontSizeComboBox.SelectedItem = (int)(double)fontSize;
             }
-
-            // Font color
-            object fontColorValue = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.ForegroundProperty);
-            if (fontColorValue != DependencyProperty.UnsetValue && fontColorValue is Brush)
+            object fontColorObject = DriverDescriptionRichTextBox.Selection.GetPropertyValue(Inline.ForegroundProperty);
+            if (fontColorObject != DependencyProperty.UnsetValue && fontColorObject is SolidColorBrush) 
             {
-                Brush fontColorBrush = fontColorValue as Brush;
-                FontColorComboBox.SelectedItem = fontColorBrush; // You might need to convert this to the correct font color option in the ComboBox
+                SolidColorBrush fontColorBrush = (SolidColorBrush)fontColorObject;
+                Color color = fontColorBrush.Color;
+
+                string colorName = typeof(Colors).GetProperties()
+                                                 .FirstOrDefault(p => ((Color)p.GetValue(null, null)).ToString() == color.ToString())?.Name;
+                if (!string.IsNullOrEmpty(colorName))
+                {
+                    FontColorComboBox.SelectedItem = colorName;
+                }
             }
 
             int charCount = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd).Text.Length;
