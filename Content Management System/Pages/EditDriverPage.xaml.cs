@@ -21,9 +21,10 @@ namespace Content_Management_System.Pages
 {
     public partial class EditDriverPage : Page
     {
-        string selectedImageName;
+        string role;
         DataIO serializer = new DataIO();
-        public EditDriverPage(Driver driver)
+        private Driver selectedDriver;
+        public EditDriverPage(Driver driver, string role)
         {
             InitializeComponent();
 
@@ -38,6 +39,8 @@ namespace Content_Management_System.Pages
                 FontSizeComboBox.Items.Add(i);
             }
             typeof(Colors).GetProperties().ToList().ForEach(f => { FontColorComboBox.Items.Add(f.Name); });
+            selectedDriver = driver;
+            this.role = role;
             DataContext = driver;
             if (!string.IsNullOrEmpty(driver.RtfPath))
             {
@@ -117,7 +120,6 @@ namespace Content_Management_System.Pages
             openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
-                selectedImageName = System.IO.Path.GetFileName(openFileDialog.FileName);
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri(openFileDialog.FileName);
@@ -141,13 +143,13 @@ namespace Content_Management_System.Pages
                 try
                 {
                     {
-                        Driver driverToEdit = mainWindow.Drivers.FirstOrDefault(d => d.Number == int.Parse(driverNumber));
-                        if (driverToEdit != null)
+                        if (selectedDriver != null)
                         {
-                            driverToEdit.Name = driverName;
-                            driverToEdit.Description = driverDescription;
-                            driverToEdit.Picture = driverPicture;
-                            using (FileStream fileStream = new FileStream(driverToEdit.RtfPath, FileMode.Open))
+                            selectedDriver.Name = driverName;
+                            selectedDriver.Description = driverDescription;
+                            selectedDriver.Picture = driverPicture;
+                            selectedDriver.Number = int.Parse(driverNumber);
+                            using (FileStream fileStream = new FileStream(selectedDriver.RtfPath, FileMode.Open))
                             {
                                 TextRange textRange = new TextRange(DriverDescriptionRichTextBox.Document.ContentStart, DriverDescriptionRichTextBox.Document.ContentEnd);
                                 textRange.Save(fileStream, DataFormats.Rtf);
@@ -155,7 +157,7 @@ namespace Content_Management_System.Pages
 
                             serializer.SerializeObject<ObservableCollection<Driver>>(mainWindow.Drivers, "Drivers.xml");
                             mainWindow.ShowToastNotification(new ToastNotification("Success", "Driver edited successfully!", Notification.Wpf.NotificationType.Success));
-                            NavigationService.GoBack();
+                            NavigationService.Navigate(new DisplayPage(role));
                         }
                         else
                         {

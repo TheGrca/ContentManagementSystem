@@ -25,7 +25,6 @@ namespace Content_Management_System.Pages
     /// </summary>
     public partial class AddDriverPage : Page
     {
-        string selectedImageName;
         string fullImagePath;
         DataIO serializer = new DataIO();
         public AddDriverPage()
@@ -129,7 +128,6 @@ namespace Content_Management_System.Pages
             if (openFileDialog.ShowDialog() == true)
             {
                 fullImagePath = openFileDialog.FileName;
-                selectedImageName = System.IO.Path.GetFileName(fullImagePath);
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri(fullImagePath);

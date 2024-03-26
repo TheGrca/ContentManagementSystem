@@ -103,7 +103,7 @@
                 <Label x:Name="DescriptionRichTextBoxError" Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" Height="30" Width="250" Margin="15 0 0 7" HorizontalAlignment="Left" Foreground="red"/>
             <StatusBar x:Name="CharacterCounterStatusBar" Width="35" Height="35" Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0 0 11 8" Background="white">
                 <StatusBarItem>
-                    <Label x:Name="CharacterCounterLabel" FontSize="15"/>
+                    <Label x:Name="CharacterCounterLabel" FontSize="10"/>
                 </StatusBarItem>
             </StatusBar>
             <Button x:Name="EditDriverButton" Grid.Row="5" Grid.ColumnSpan="2" Cursor="Hand" Height="50" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Click="EditDriverButton_Click" Style="{StaticResource MyButton}" ToolTip="Edit the driver">

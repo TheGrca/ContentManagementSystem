@@ -25,9 +25,8 @@ namespace Content_Management_System.Pages
     /// <summary>
     /// Interaction logic for DisplayPage.xaml
     /// </summary>
-    public partial class DisplayPage : Page, INotifyPropertyChanged
+    public partial class DisplayPage : Page
     {
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<Driver> Drivers { get; set; }
         public MainWindow mainWindow;
@@ -44,7 +43,6 @@ namespace Content_Management_System.Pages
             this.role = role;   
             DataContext = this;
         }
-
         private void CheckUserRole(string role)
         {
             if(role == "Visitor")
@@ -58,7 +56,6 @@ namespace Content_Management_System.Pages
                 DeleteDriverButton.Visibility = Visibility.Visible;
             }
         }
-
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to logout?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -68,17 +65,10 @@ namespace Content_Management_System.Pages
                 NavigationService.Navigate(new LoginPage());
             }
         }
-
         private void AddDriverButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new AddDriverPage());
         }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private void DeleteDriverButton_Click(object sender, RoutedEventArgs e)
         {
             if (Drivers.Count(d => d.IsSelected) == 0)
@@ -126,7 +116,7 @@ namespace Content_Management_System.Pages
                 }
                 else
                 {
-                    EditDriverPage editDriverPage = new EditDriverPage(selectedDriver);
+                    EditDriverPage editDriverPage = new EditDriverPage(selectedDriver, role);
                     NavigationService.Navigate(editDriverPage);
                 }
             }
