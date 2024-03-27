@@ -37,7 +37,7 @@
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             ScrollViewer.HorizontalScrollBarVisibility="Auto" >
             <DataGrid.Columns >
-                <DataGridCheckBoxColumn Header="Check" Width="Auto" Binding="{Binding IsSelected}"/>
+                <DataGridCheckBoxColumn x:Name="CheckBoxColumn" Header="Check" Width="Auto" Binding="{Binding IsSelected}"/>
                 <DataGridTemplateColumn Width="*" Header="Name">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

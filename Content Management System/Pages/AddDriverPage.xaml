@@ -41,24 +41,24 @@
             <TextBlock Grid.ColumnSpan="2" Text="ADD A DRIVER" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
 
             <ToolBar Grid.Row="1" Grid.ColumnSpan="2" Width="630" Height="30" VerticalAlignment="Center">
-                <ToggleButton x:Name="BoldToggleButton" Margin="40 0 0 0" Command="EditingCommands.ToggleBold">
+                <ToggleButton x:Name="BoldToggleButton" Margin="40 0 0 0" Command="EditingCommands.ToggleBold" ToolTip="Make the selected text bold.">
                     <fa5:SvgAwesome Icon="Solid_Bold" Foreground="Black"/>
                 </ToggleButton>
                 <Separator Margin="10 0 10 0"/>
-                <ToggleButton x:Name="ItalicToggleButton" Command="EditingCommands.ToggleItalic">
+                <ToggleButton x:Name="ItalicToggleButton" Command="EditingCommands.ToggleItalic" ToolTip="Make the selected text italic.">
                     <fa5:SvgAwesome Icon="Solid_Italic" Foreground="Black"/>
                 </ToggleButton>
                 <Separator Margin="10 0 10 0"/>
-                <ToggleButton x:Name="UnderlineToggleButton" Command="EditingCommands.ToggleUnderline">
+                <ToggleButton x:Name="UnderlineToggleButton" Command="EditingCommands.ToggleUnderline" ToolTip="Make the selected text underlined.">
                     <fa5:SvgAwesome Icon="Solid_Underline" Foreground="Black"/>
                 </ToggleButton>
                 <Separator Margin="10 0 10 0"/>
-                <ComboBox x:Name="FontFamilyComboBox" Width="150" IsTextSearchCaseSensitive="False" IsTextSearchEnabled="True" SelectionChanged="FontFamilyComboBox_SelectionChanged"/>
+                <ComboBox x:Name="FontFamilyComboBox" Width="150" IsTextSearchCaseSensitive="False" IsTextSearchEnabled="True" SelectionChanged="FontFamilyComboBox_SelectionChanged" ToolTip="Change the font family."/>
                 <Separator Margin="10 0 10 0"/>
-                <ComboBox x:Name="FontSizeComboBox" Width="50" IsTextSearchEnabled="True" SelectionChanged="FontSizeComboBox_SelectionChanged"/>
+                <ComboBox x:Name="FontSizeComboBox" Width="50" IsTextSearchEnabled="True" SelectionChanged="FontSizeComboBox_SelectionChanged" ToolTip="Change the font size."/>
                 <Separator Margin="10 0 10 0"/>
                 <Rectangle x:Name="ColorPreviewRectangle" Height="20" Width="20" Margin="0 0 5 0"/>
-                <ComboBox x:Name="FontColorComboBox" Width="100" IsTextSearchCaseSensitive="False" IsTextSearchEnabled="True" SelectionChanged="FontColorComboBox_SelectionChanged"/>
+                <ComboBox x:Name="FontColorComboBox" Width="100" IsTextSearchCaseSensitive="False" IsTextSearchEnabled="True" SelectionChanged="FontColorComboBox_SelectionChanged" ToolTip="Change the font color."/>
             </ToolBar>
 
             <StackPanel Grid.Row="2" >

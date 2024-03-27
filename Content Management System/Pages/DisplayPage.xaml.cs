@@ -49,11 +49,13 @@ namespace Content_Management_System.Pages
             {
                 AddDriverButton.Visibility = Visibility.Hidden;
                 DeleteDriverButton.Visibility = Visibility.Hidden;
+                CheckBoxColumn.IsReadOnly = true;
             }
             else
             {
                 AddDriverButton.Visibility = Visibility.Visible;
                 DeleteDriverButton.Visibility = Visibility.Visible;
+                CheckBoxColumn.IsReadOnly = false;
             }
         }
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
